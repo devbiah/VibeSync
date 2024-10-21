@@ -35,11 +35,11 @@ export default Login = () => {
 
     return (
         <View style={styles.container}>
-            <Text style={styles.title}>Sign Up</Text>
+            <Text style={styles.title}>Oi</Text>
             <View>
                 <TextInput value={name} onChangeTextHandler={setName} label={"Nome"} />
-                <TextInput value={email} onChangeTextHandler={setEmail} label={"Email"} />
-                <TextInput value={password} onChangeTextHandler={setPassword} label={"Senha"} />
+                {/* <TextInput value={email} onChangeTextHandler={setEmail} label={"Email"} />
+                <TextInput value={password} onChangeTextHandler={setPassword} label={"Senha"} /> */}
             </View>
 
             <Pressable style={styles.button} onPress={fetchData}><Text style={{ color: '#ffffff' }}>Sign Up</Text></Pressable>

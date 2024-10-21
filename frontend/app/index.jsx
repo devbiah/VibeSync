@@ -1,20 +1,22 @@
 import React from "react";
-import { Text, View, StyleSheet, Pressable, Image } from "react-native";
+import { Image } from 'expo-image';
+import { Text, View, StyleSheet, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
-
-const firstIcon = require("../assets/img/firstIcon.svg"); 
-
+import {router} from 'expo-router'
 export default FirstPage = () => {
 
     const handleSignUp = () => {
-        navigation.navigate("Login"); 
+        router.push('/Login')
     };
 
     return (
         <LinearGradient colors={["#6D8299", "#242B33"]} style={styles.gradient}>
             <View style={styles.container}>
                 <View>
-                    <Image source={firstIcon} style={styles.img} /> 
+                    <Image
+                        style={styles.img}
+                        source={require('../assets/img/firstIcon.svg')}
+                    />
                 </View>
 
                 <Pressable style={styles.button} onPress={handleSignUp}>
@@ -28,6 +30,11 @@ export default FirstPage = () => {
 const styles = StyleSheet.create({
     gradient: {
         flex: 1,
+    },
+    img: {
+        marginTop: 50,
+        width: 200, 
+        height: 190
     },
     container: {
         flex: 1,
