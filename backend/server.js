@@ -1,14 +1,14 @@
 import Express from "express";
-import { criarTabelas, User } from './db.js';
+import { createTables, User } from './db.js';
 
 const app = Express()
 app.use(Express.json())
-criarTabelas()
+createTables()
 
-app.post('/registro', async (req, res) => {
-    const {nome, sobrenome, email, senha, dataNascimento} = req.body
-    if (!nome || !sobrenome || !email || !senha || !dataNascimento){
-        res.send('voce deve preencher todos os campos')
+app.post('/register', async (req, res) => {
+    const {username, email, password, birthdate} = req.body
+    if (!username || !email || !password || !birthdate){
+        res.send('You need to fill all fields.')
         return
     }
     const teste = await User.create(req.body)
