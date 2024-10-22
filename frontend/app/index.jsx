@@ -3,6 +3,7 @@ import { Image } from 'expo-image';
 import { Text, View, StyleSheet, Pressable } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import {router} from 'expo-router'
+
 export default FirstPage = () => {
 
     const handleSignUp = () => {

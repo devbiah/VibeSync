@@ -3,13 +3,51 @@ import { Image } from "expo-image";
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from "expo-router";
 import { StyleSheet, Text, View, Pressable } from "react-native";
+import { useFonts } from 'expo-font';
 
+
+// const [name, setName] = React.useState('');
+// const [email, setEmail] = React.useState('');
+// const [password, setPassword] = React.useState('');
+
+// const fetchData = async () => {
+//     try {
+//         console.log(name, email, password)
+
+//         const response = await fetch('https://taskhub-s37f.onrender.com/auth/signup', {
+//             method: "POST",
+//             headers: {
+//                 Accept: 'application/json',
+//                 "Content-Type": 'application/json'
+//             },
+//             body: JSON.stringify({
+//                 "name": name,
+//                 "email": email,
+//                 "password": password
+//             })
+//         }
+//         ).then((response) => {
+//             if (response.status == 200)
+//                 alert('Usuário criado com sucesso')
+//         })
+//     } catch (error) {
+//         console.error("Erro: ", error)
+//     }
+// }
+//   <View>
+//                 <TextInput value={name} onChangeTextHandler={setName} label={"Nome"} />
+//           <TextInput value={email} onChangeTextHandler={setEmail} label={"Email"} />
+//                 <TextInput value={password} onChangeTextHandler={setPassword} label={"Senha"} /> 
+//             </View> 
 export default Login = () => {
+    const [fontsLoaded] = useFonts({
+        'Inter-Italic': require('../../assets/font/InterBoldItalic.ttf'),
+    });
     const handleSubmit = () => {
-        router.push('/Register')
+        router.push('/Login')
     };
     const handleSignIn = () => {
-        router.push('/Register')
+        router.push('/Login')
     };
 
     return (
@@ -26,13 +64,20 @@ export default Login = () => {
                         />
                     </View>
                     <View style={styles.text}>
-                        <h2 style={styles.firstText}>Login to VibeSync</h2>
+                        <h2 style={styles.firstText}>Create your Account</h2>
                     </View>
                     <form onSubmit={handleSubmit} style={styles.form}>
                         <TextField
                             fullWidth
-                            label="User"
+                            label="Username"
                             type="text"
+                            required
+                            sx={styles.textField}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Email"
+                            type="email"
                             required
                             sx={styles.textField}
                         />
@@ -43,12 +88,29 @@ export default Login = () => {
                             required
                             sx={styles.textField}
                         />
+                        <TextField
+                            fullWidth
+                            label="Confirm Password"
+                            type="password"
+                            required
+                            sx={styles.textField}
+                        />
+                        <TextField
+                            fullWidth
+                            label="Birth Date"
+                            type="date"
+                            required
+                            InputLabelProps={{
+                                shrink: true,
+                            }}
+                            sx={styles.textField}
+                        />
                         <Button
                             type="submit"
                             variant="contained"
                             sx={styles.submitButton}
                         >
-                            Login
+                            Create
                         </Button>
                     </form>
                     <Pressable style={styles.button} onPress={handleSignIn}>
@@ -62,17 +124,22 @@ export default Login = () => {
                                 justifyContent: 'center',
                                 alignItems: 'center',
                             }}>
-                            Don’t have an account? Create here
+                            Alredy have an account? Sign-in
                         </Text>
                     </Pressable>
                 </Container>
             </View>
         </LinearGradient>
-
-    )
+    );
 }
 
 const styles = StyleSheet.create({
+    button: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 15,
+
+    },
     background: {
         flex: 1,
         justifyContent: 'center',
@@ -89,8 +156,8 @@ const styles = StyleSheet.create({
         height: 60,
     },
     container: {
-        width: 328,
-        height: 421,
+        width: 328.37,
+        height: 635,
         backgroundColor: '#B4C6D7',
         borderRadius: 36,
         justifyContent: 'center',
@@ -153,11 +220,4 @@ const styles = StyleSheet.create({
             backgroundColor: '#1f1f1f',
         },
     },
-    button: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20,
-
-    },
-
-})
+});
