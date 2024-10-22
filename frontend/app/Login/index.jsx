@@ -1,163 +1,157 @@
-import { Button, Container, TextField } from "@mui/material";
+import { useFonts } from "expo-font";
 import { Image } from "expo-image";
-import { LinearGradient } from 'expo-linear-gradient';
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { StyleSheet, Text, View, Pressable } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
 
-export default Login = () => {
-    const handleSubmit = () => {
-        router.push('/Register')
-    };
-    const handleSignIn = () => {
-        router.push('/Register')
-    };
+const Login = () => {
+  const [fontsLoaded] = useFonts({
+    Inter: require("../../assets/font/Inter.ttf"),
+    "Inter-Italic": require("../../assets/font/InterBoldItalic.ttf"),
+  });
+  if (!fontsLoaded) {
+    return null;
+  }
 
-    return (
-        <LinearGradient
-            colors={['#6D8299', '#242B33']}
-            style={styles.background}
-        >
-            <View style={styles.container}>
-                <Container maxWidth="sm" sx={styles.formContainer}>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            style={styles.img}
-                            source={require('../../assets/img/soloIcon.svg')}
-                        />
-                    </View>
-                    <View style={styles.text}>
-                        <h2 style={styles.firstText}>Login to VibeSync</h2>
-                    </View>
-                    <form onSubmit={handleSubmit} style={styles.form}>
-                        <TextField
-                            fullWidth
-                            label="User"
-                            type="text"
-                            required
-                            sx={styles.textField}
-                        />
-                        <TextField
-                            fullWidth
-                            label="Password"
-                            type="password"
-                            required
-                            sx={styles.textField}
-                        />
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            sx={styles.submitButton}
-                        >
-                            Login
-                        </Button>
-                    </form>
-                    <Pressable style={styles.button} onPress={handleSignIn}>
-                        <Text
-                            style={{
-                                color: '#242B33',
-                                fontFamily: 'Inter-Italic',
-                                fontStyle: 'italic',
-                                textDecorationLine: 'underline',
-                                fontWeight: 'bold',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
-                            Don’t have an account? Create here
-                        </Text>
-                    </Pressable>
-                </Container>
-            </View>
-        </LinearGradient>
+  const handleSubmit = () => {
+    router.push("/Register");
+  };
+  const handleSignIn = () => {
+    router.push("/Home");
+  };
 
-    )
-}
+  return (
+    <LinearGradient colors={["#6D8299", "#242B33"]} style={styles.background}>
+      <View style={styles.container}>
+        <View style={styles.imageContainer}>
+          <Image
+            style={styles.img}
+            source={require("../../assets/img/soloIcon.svg")}
+          />
+        </View>
+        <View style={styles.text}>
+          <Text style={styles.firstText}>Login to VibeSync</Text>
+        </View>
+        <View style={styles.form}>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Username</Text>
+            <TextInput
+              style={styles.textField}
+              placeholder="Enter your username"
+              placeholderTextColor="#6D8299"
+              selectionColor="#000000"
+            />
+          </View>
+          <View style={styles.inputContainer}>
+            <Text style={styles.label}>Password</Text>
+            <TextInput
+              style={styles.textField}
+              placeholder="Enter your password"
+              secureTextEntry
+              placeholderTextColor="#6D8299"
+              selectionColor="#000000"
+            />
+          </View>
+          <Pressable style={styles.loginButton} onPress={handleSignIn}>
+            <Text style={styles.loginButtonText}>Login</Text>
+          </Pressable>
+        </View>
+        <Pressable style={styles.button} onPress={handleSubmit}>
+          <Text style={styles.signUpText}>
+            Don’t have an account? Create here
+          </Text>
+        </Pressable>
+      </View>
+    </LinearGradient>
+  );
+};
 
 const styles = StyleSheet.create({
-    background: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-    imageContainer: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginBottom: 1,
-        marginVertical: 10,
-    },
-    img: {
-        width: 52,
-        height: 60,
-    },
-    container: {
-        width: 328,
-        height: 421,
-        backgroundColor: '#B4C6D7',
-        borderRadius: 36,
-        justifyContent: 'center',
-        alignItems: 'center',
-        padding: 20,
-    },
-    formContainer: {
-        width: '100%',
-        height: '100%',
-    },
-    firstText: {
-        fontSize: 25,
-        fontWeight: '800',
-        fontFamily: 'Inter',
-        textAlign: 'center',
-        color: '#242B33',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-    },
-    text: {
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    form: {
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        flexDirection: 'column',
-        width: '100%',
-    },
-    textField: {
-        width: 260.3,
-        height: 42.29,
-        marginBottom: 4,
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: '#6D8299',
-                borderWidth: 2,
-            },
-            '&:hover fieldset': { borderColor: '#6D8299' },
-            '&.Mui-focused fieldset': { borderColor: '#6D8299' },
-        },
-        '& .MuiInputBase-input': {
-            color: '#6D8299',
-            fontWeight: 'bold',
-        },
-        '& .MuiInputLabel-root': {
-            '&.Mui-focused': { color: '#242B33' },
-            color: '#6D8299',
-            fontWeight: 'bold',
-        },
-    },
-    submitButton: {
-        backgroundColor: '#242B33',
-        color: '#B4C6D7',
-        borderRadius: 89,
-        width: 264.16,
-        height: 46.66,
-        '&:hover': {
-            backgroundColor: '#1f1f1f',
-        },
-    },
-    button: {
-        justifyContent: 'center',
-        alignItems: 'center',
-        marginTop: 20,
+  button: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginTop: 15,
+  },
+  background: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  imageContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+    marginBottom: 1,
+  },
+  img: {
+    width: 52,
+    height: 60,
+    marginBottom: 20,
+  },
+  container: {
+    backgroundColor: "#B4C6D7",
+    borderRadius: 36,
+    justifyContent: "center",
+    alignItems: "center",
+    padding: 20,
+    alignSelf: "center",
+    height: 450,
+    width: 300,
+  },
+  firstText: {
+    fontSize: 25,
+    fontWeight: "800",
+    fontFamily: "Inter",
+    textAlign: "center",
+    color: "#242B33",
+    marginBottom: 20,
+  },
+  form: {
+    width: "100%",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  inputContainer: {
+    width: "100%",
+    marginBottom: 10,
+    alignItems: "flex-start",
+  },
+  label: {
+    color: "#242B33",
+    fontWeight: "bold",
+    marginBottom: 5,
+  },
+  textField: {
+    width: 260,
+    height: 40,
+    borderColor: "#6D8299",
+    borderWidth: 2,
+    borderRadius: 4,
+    color: "#6D8299",
+    fontWeight: "bold",
+    paddingHorizontal: 10,
+    textAlign: "left",
+    borderRadius: 10,
+  },
+  loginButton: {
+    width: 264.16,
+    height: 46.66,
+    backgroundColor: "#242B33",
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 30,
+    marginTop: 10,
+  },
+  loginButtonText: {
+    color: "#B4C6D7",
+    fontWeight: "bold",
+  },
+  signUpText: {
+    color: "#242B33",
+    fontFamily: "Inter-Italic",
+    fontWeight: "bold",
+    textDecorationLine: "underline",
+    textAlign: "center",
+  },
+});
 
-    },
-
-})
+export default Login;

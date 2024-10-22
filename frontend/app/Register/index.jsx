@@ -59,10 +59,8 @@ export default Register = () => {
     };
 
     const handleDateChange = (text) => {
-        // Permitir apenas números e o caractere de hífen
         const formattedText = text.replace(/[^0-9-]/g, '');
 
-        // Limitar o formato a "YYYY-MM-DD"
         if (formattedText.length <= 10) {
             setBirthDate(formattedText);
         }
@@ -110,7 +108,7 @@ export default Register = () => {
                             placeholder="Enter your password"
                             secureTextEntry
                             placeholderTextColor="#6D8299"
-                            selectionColor="#000000" // Cursor color
+                            selectionColor="#000000"
                         />
                     </View>
                     <View style={styles.inputContainer}>
@@ -120,7 +118,7 @@ export default Register = () => {
                             placeholder="Confirm your password"
                             secureTextEntry
                             placeholderTextColor="#6D8299"
-                            selectionColor="#000000" // Cursor color
+                            selectionColor="#000000" 
                         />
                     </View>
                     <View style={styles.inputContainer}>
@@ -129,10 +127,10 @@ export default Register = () => {
                             style={styles.textField}
                             placeholder="DD-MM-YYYY"
                             placeholderTextColor="#6D8299"
-                            selectionColor="#000000" // Cursor color
-                            keyboardType="numeric" // Mostrar teclado numérico
+                            selectionColor="#000000"
+                            keyboardType="numeric"
                             value={birthDate}
-                            onChangeText={handleDateChange} // Lidar com a mudança de texto
+                            onChangeText={handleDateChange} 
                         />
                     </View>
                     <Pressable
