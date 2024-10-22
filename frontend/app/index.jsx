@@ -7,7 +7,7 @@ import {router} from 'expo-router'
 export default FirstPage = () => {
 
     const handleSignUp = () => {
-        router.push('/Login')
+        router.push('/Register')
     };
 
     return (

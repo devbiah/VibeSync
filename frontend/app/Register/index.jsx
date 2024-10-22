@@ -1,11 +1,3 @@
-import { Button, Container, TextField } from "@mui/material";
-import { Image } from "expo-image";
-import { LinearGradient } from 'expo-linear-gradient';
-import { router } from "expo-router";
-import { StyleSheet, Text, View, Pressable } from "react-native";
-import { useFonts } from 'expo-font';
-
-
 // const [name, setName] = React.useState('');
 // const [email, setEmail] = React.useState('');
 // const [password, setPassword] = React.useState('');
@@ -39,15 +31,41 @@ import { useFonts } from 'expo-font';
 //           <TextInput value={email} onChangeTextHandler={setEmail} label={"Email"} />
 //                 <TextInput value={password} onChangeTextHandler={setPassword} label={"Senha"} /> 
 //             </View> 
-export default Login = () => {
+import { Image } from "expo-image";
+import { LinearGradient } from 'expo-linear-gradient';
+import { router } from "expo-router";
+import { StyleSheet, Text, View, TextInput, Pressable } from "react-native";
+import { useFonts } from 'expo-font';
+import React, { useState } from "react";
+
+export default Register = () => {
     const [fontsLoaded] = useFonts({
+        'Inter': require('../../assets/font/Inter.ttf'),
         'Inter-Italic': require('../../assets/font/InterBoldItalic.ttf'),
     });
+
+    const [birthDate, setBirthDate] = useState('');
+
+    if (!fontsLoaded) {
+        return null;
+    }
+
     const handleSubmit = () => {
-        router.push('/Login')
+        router.push('/Login');
     };
+
     const handleSignIn = () => {
-        router.push('/Login')
+        router.push('/Login');
+    };
+
+    const handleDateChange = (text) => {
+        // Permitir apenas números e o caractere de hífen
+        const formattedText = text.replace(/[^0-9-]/g, '');
+
+        // Limitar o formato a "YYYY-MM-DD"
+        if (formattedText.length <= 10) {
+            setBirthDate(formattedText);
+        }
     };
 
     return (
@@ -56,89 +74,89 @@ export default Login = () => {
             style={styles.background}
         >
             <View style={styles.container}>
-                <Container maxWidth="sm" sx={styles.formContainer}>
-                    <View style={styles.imageContainer}>
-                        <Image
-                            style={styles.img}
-                            source={require('../../assets/img/soloIcon.svg')}
+                <View style={styles.imageContainer}>
+                    <Image
+                        style={styles.img}
+                        source={require('../../assets/img/soloIcon.svg')}
+                    />
+                </View>
+                <View style={styles.text}>
+                    <Text style={styles.firstText}>Create your Account</Text>
+                </View>
+                <View style={styles.form}>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Username</Text>
+                        <TextInput
+                            style={styles.textField}
+                            placeholder="Enter your username"
+                            placeholderTextColor="#6D8299"
+                            selectionColor="#000000" // Cursor color
                         />
                     </View>
-                    <View style={styles.text}>
-                        <h2 style={styles.firstText}>Create your Account</h2>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Email</Text>
+                        <TextInput
+                            style={styles.textField}
+                            placeholder="Enter your email"
+                            keyboardType="email-address"
+                            placeholderTextColor="#6D8299"
+                            selectionColor="#000000" // Cursor color
+                        />
                     </View>
-                    <form onSubmit={handleSubmit} style={styles.form}>
-                        <TextField
-                            fullWidth
-                            label="Username"
-                            type="text"
-                            required
-                            sx={styles.textField}
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Password</Text>
+                        <TextInput
+                            style={styles.textField}
+                            placeholder="Enter your password"
+                            secureTextEntry
+                            placeholderTextColor="#6D8299"
+                            selectionColor="#000000" // Cursor color
                         />
-                        <TextField
-                            fullWidth
-                            label="Email"
-                            type="email"
-                            required
-                            sx={styles.textField}
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Confirm Password</Text>
+                        <TextInput
+                            style={styles.textField}
+                            placeholder="Confirm your password"
+                            secureTextEntry
+                            placeholderTextColor="#6D8299"
+                            selectionColor="#000000" // Cursor color
                         />
-                        <TextField
-                            fullWidth
-                            label="Password"
-                            type="password"
-                            required
-                            sx={styles.textField}
+                    </View>
+                    <View style={styles.inputContainer}>
+                        <Text style={styles.label}>Birth Date</Text>
+                        <TextInput
+                            style={styles.textField}
+                            placeholder="DD-MM-YYYY"
+                            placeholderTextColor="#6D8299"
+                            selectionColor="#000000" // Cursor color
+                            keyboardType="numeric" // Mostrar teclado numérico
+                            value={birthDate}
+                            onChangeText={handleDateChange} // Lidar com a mudança de texto
                         />
-                        <TextField
-                            fullWidth
-                            label="Confirm Password"
-                            type="password"
-                            required
-                            sx={styles.textField}
-                        />
-                        <TextField
-                            fullWidth
-                            label="Birth Date"
-                            type="date"
-                            required
-                            InputLabelProps={{
-                                shrink: true,
-                            }}
-                            sx={styles.textField}
-                        />
-                        <Button
-                            type="submit"
-                            variant="contained"
-                            sx={styles.submitButton}
-                        >
-                            Create
-                        </Button>
-                    </form>
-                    <Pressable style={styles.button} onPress={handleSignIn}>
-                        <Text
-                            style={{
-                                color: '#242B33',
-                                fontFamily: 'Inter-Italic',
-                                fontStyle: 'italic',
-                                textDecorationLine: 'underline',
-                                fontWeight: 'bold',
-                                justifyContent: 'center',
-                                alignItems: 'center',
-                            }}>
-                            Alredy have an account? Sign-in
-                        </Text>
+                    </View>
+                    <Pressable
+                        style={styles.createButton}
+                        onPress={handleSubmit}
+                    >
+                        <Text style={styles.createButtonText}>Create</Text>
                     </Pressable>
-                </Container>
+                </View>
+                <Pressable style={styles.button} onPress={handleSignIn}>
+                    <Text style={styles.signInText}>
+                        Already have an account? Sign-in
+                    </Text>
+                </Pressable>
             </View>
         </LinearGradient>
     );
-}
+};
 
 const styles = StyleSheet.create({
     button: {
         justifyContent: 'center',
         alignItems: 'center',
         marginTop: 15,
-
     },
     background: {
         flex: 1,
@@ -149,24 +167,20 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginBottom: 1,
-        marginVertical: 10,
     },
     img: {
         width: 52,
         height: 60,
+        marginBottom: 20,
     },
     container: {
-        width: 328.37,
-        height: 635,
         backgroundColor: '#B4C6D7',
         borderRadius: 36,
         justifyContent: 'center',
         alignItems: 'center',
         padding: 20,
-    },
-    formContainer: {
-        width: '100%',
-        height: '100%',
+        alignSelf: 'center',
+        minHeight: 500,
     },
     firstText: {
         fontSize: 25,
@@ -174,50 +188,53 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter',
         textAlign: 'center',
         color: '#242B33',
-        whiteSpace: 'nowrap',
-        overflow: 'hidden',
-    },
-    text: {
-        alignItems: 'center',
-        justifyContent: 'center',
+        marginBottom: 20,
     },
     form: {
-        display: 'flex',
+        width: '100%',
         justifyContent: 'center',
         alignItems: 'center',
-        flexDirection: 'column',
+    },
+    inputContainer: {
         width: '100%',
+        marginBottom: 10,
+        alignItems: 'flex-start',
+    },
+    label: {
+        color: '#242B33',
+        fontWeight: 'bold',
+        marginBottom: 5,
     },
     textField: {
-        width: 260.3,
-        height: 42.29,
-        marginBottom: 4,
-        '& .MuiOutlinedInput-root': {
-            '& fieldset': {
-                borderColor: '#6D8299',
-                borderWidth: 2,
-            },
-            '&:hover fieldset': { borderColor: '#6D8299' },
-            '&.Mui-focused fieldset': { borderColor: '#6D8299' },
-        },
-        '& .MuiInputBase-input': {
-            color: '#6D8299',
-            fontWeight: 'bold',
-        },
-        '& .MuiInputLabel-root': {
-            '&.Mui-focused': { color: '#242B33' },
-            color: '#6D8299',
-            fontWeight: 'bold',
-        },
+        width: 260,
+        height: 40,
+        borderColor: '#6D8299',
+        borderWidth: 2,
+        borderRadius: 4,
+        color: '#6D8299',
+        fontWeight: 'bold',
+        paddingHorizontal: 10,
+        textAlign: 'left',
+        borderRadius: 10,
     },
-    submitButton: {
-        backgroundColor: '#242B33',
-        color: '#B4C6D7',
-        borderRadius: 89,
+    createButton: {
         width: 264.16,
         height: 46.66,
-        '&:hover': {
-            backgroundColor: '#1f1f1f',
-        },
+        backgroundColor: '#242B33',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 30,
+        marginTop: 10,
+    },
+    createButtonText: {
+        color: '#B4C6D7',
+        fontWeight: 'bold',
+    },
+    signInText: {
+        color: '#242B33',
+        fontFamily: 'Inter-Italic',
+        fontWeight: 'bold',
+        textDecorationLine: 'underline',
+        textAlign: 'center',
     },
 });

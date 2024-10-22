@@ -19,7 +19,7 @@
     "@emotion/styled": "^11.13.0",
     "@expo/vector-icons": "^14.0.2",
     "@mui/icons-material": "^6.1.4",
-    "@mui/material": "^6.1.4",
+    "@mui/material": "^6.1.5",
     "@mui/styled-engine-sc": "^6.1.4",
     "@react-navigation/native": "^6.0.2",
     "expo": "~51.0.28",
