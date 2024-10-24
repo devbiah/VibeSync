@@ -2,13 +2,19 @@ import { useFonts } from "expo-font";
 import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
-import { Pressable, StyleSheet, Text, TextInput, View } from "react-native";
+import { Pressable, StyleSheet, Text, TextInput, View, Alert } from "react-native";
+import { useState } from "react";
 
 const Login = () => {
   const [fontsLoaded] = useFonts({
     Inter: require("../../assets/font/Inter.ttf"),
     "Inter-Italic": require("../../assets/font/InterBoldItalic.ttf"),
   });
+  
+  // Move the state declarations inside the component
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
+
   if (!fontsLoaded) {
     return null;
   }
@@ -16,8 +22,30 @@ const Login = () => {
   const handleSubmit = () => {
     router.push("/Register");
   };
-  const handleSignIn = () => {
-    router.push("/Home");
+  
+  const handleSignIn = async () => {
+    try {
+      const response = await fetch('http://localhost:8000/login', { 
+        method: 'POST',
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        Alert.alert('Success', data.msg);
+        router.push("/Home");
+      } else {
+        Alert.alert('Error', data);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      Alert.alert('Error', 'An error occurred while trying to log in.');
+    }
   };
 
   return (
@@ -40,6 +68,8 @@ const Login = () => {
               placeholder="Enter your username"
               placeholderTextColor="#6D8299"
               selectionColor="#000000"
+              value={username} 
+              onChangeText={setUsername}
             />
           </View>
           <View style={styles.inputContainer}>
@@ -50,6 +80,8 @@ const Login = () => {
               secureTextEntry
               placeholderTextColor="#6D8299"
               selectionColor="#000000"
+              value={password}
+              onChangeText={setPassword}
             />
           </View>
           <Pressable style={styles.loginButton} onPress={handleSignIn}>

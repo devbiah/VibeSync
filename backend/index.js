@@ -1,14 +1,18 @@
 import Express from "express";
 import { createTables, User } from './db.js';
 import bcryptjs from "bcryptjs"
+import jsonwebtoken from 'jsonwebtoken'
+import cors from "cors"
 
 const app = Express()
 app.use(Express.json())
+app.use(cors())
 // createTables()
 
-app.post('/register', async (req, res) => {
-    const { username, email, password, birthdate } = req.body
-    if (!username || !email || !password || !birthdate) {
+
+app.post('/signup', async (req, res) => {
+    const { username, email, password } = req.body
+    if (!username || !email || !password ) {
         res.send('You need to fill all the fields.')
         return
     }
@@ -19,34 +23,41 @@ app.post('/register', async (req, res) => {
     }
 
     const passCrypto = bcryptjs.hashSync(password, 10)
-    const createdUser = await User.create({ username, email, password: passCrypto, birthdate })
-    //verificar se o usuario existe no banco de dados
-    //encriptar a senha do usuario
-    //salvar o usuario no banco de dados
+    const createdUser = await User.create({ username, email, password: passCrypto })
     res.send('OK, user created.')
 })
 
 app.post('/login', async (req, res) => {
-    const { email, password } = req.body
-    if (!email || !password) {
+    const { username, password } = req.body
+    if (!username || !password) {
         res.send('You need to fill all the fields.')
         return
     }
-    const existUser = await User.findOne({ where: { email: email } })
-    if (!existUser) {
+    const userExist = await User.findOne({ where: { username: username } })
+    if (!userExist) {
         res.send('User alredy exists.')
         return
     }
-    const validPass = bcryptjs.compareSync(password, existUser.password)
-    if(!validPass){
+    const validPass = bcryptjs.compareSync(password, userExist.password)
+    if (!validPass) {
         res.send('Invalid Password')
         return
     }
-    //verificar se o usuario existe no banco de dados
-    // comparar a senha do usuario com a senha salva no banco
-    // criar um token de autenticação para este usuario
-    //retornar a mensagem com o token
-    res.send('OK, User Logged.')
+    const token = jsonwebtoken.sign(
+        {
+            "username": userExist.username,
+            "email": userExist.email,
+            "status": userExist.status
+        },
+        "keycryptojwt",
+        { expiresIn: 1000 * 60 * 5 }
+
+    )
+    console.log(token)
+    res.send({
+        msg: "Ok, user logged",
+        tokenJWT: token
+    })
 }
 )
 

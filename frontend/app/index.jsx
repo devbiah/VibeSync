@@ -30,6 +30,11 @@ const styles = StyleSheet.create({
   gradient: {
     flex: 1,
   },
+  container: {
+    flex: 1,
+    justifyContent: "center", 
+    alignItems: "center", 
+  },
   img: {
     marginTop: 50,
     width: 200,
@@ -44,6 +49,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     borderRadius: 89,
-    marginTop: 200,
+    marginTop: 250,
   },
 });

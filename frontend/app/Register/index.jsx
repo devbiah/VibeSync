@@ -1,36 +1,3 @@
-// const [name, setName] = React.useState('');
-// const [email, setEmail] = React.useState('');
-// const [password, setPassword] = React.useState('');
-
-// const fetchData = async () => {
-//     try {
-//         console.log(name, email, password)
-
-//         const response = await fetch('https://taskhub-s37f.onrender.com/auth/signup', {
-//             method: "POST",
-//             headers: {
-//                 Accept: 'application/json',
-//                 "Content-Type": 'application/json'
-//             },
-//             body: JSON.stringify({
-//                 "name": name,
-//                 "email": email,
-//                 "password": password
-//             })
-//         }
-//         ).then((response) => {
-//             if (response.status == 200)
-//                 alert('Usuário criado com sucesso')
-//         })
-//     } catch (error) {
-//         console.error("Erro: ", error)
-//     }
-// }
-//   <View>
-//                 <TextInput value={name} onChangeTextHandler={setName} label={"Nome"} />
-//           <TextInput value={email} onChangeTextHandler={setEmail} label={"Email"} />
-//                 <TextInput value={password} onChangeTextHandler={setPassword} label={"Senha"} /> 
-//             </View> 
 import { Image } from "expo-image";
 import { LinearGradient } from 'expo-linear-gradient';
 import { router } from "expo-router";
@@ -43,27 +10,52 @@ export default Register = () => {
         'Inter': require('../../assets/font/Inter.ttf'),
         'Inter-Italic': require('../../assets/font/InterBoldItalic.ttf'),
     });
+    const [username, setUserame] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [confirmPassword, setConfirmPassword] = useState('');
 
-    const [birthDate, setBirthDate] = useState('');
+
 
     if (!fontsLoaded) {
         return null;
     }
 
-    const handleSubmit = () => {
-        router.push('/Login');
-    };
+    const handleSignUp = async () => {
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
 
+        try {
+            const response = await fetch('https://localhost:8000/signup', {
+                method: "POST",
+                headers: {
+                    Accept: 'application/json',
+                    "Content-Type": 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    email,
+                    password
+                })
+            });
+
+            if (response.ok) {
+                alert('User created successfully');
+                router.push('/Login');
+            } else {
+                const errorResponse = await response.json();
+                alert(errorResponse.message || 'Something went wrong');
+            }
+        } catch (error) {
+            console.error("Error: ", error);
+            alert("An error occurred. Please try again later.");
+        }
+
+    };
     const handleSignIn = () => {
         router.push('/Login');
-    };
-
-    const handleDateChange = (text) => {
-        const formattedText = text.replace(/[^0-9-]/g, '');
-
-        if (formattedText.length <= 10) {
-            setBirthDate(formattedText);
-        }
     };
 
     return (
@@ -88,8 +80,10 @@ export default Register = () => {
                             style={styles.textField}
                             placeholder="Enter your username"
                             placeholderTextColor="#6D8299"
-                            selectionColor="#000000" // Cursor color
-                        />
+                            selectionColor="#000000"
+                            value={username}
+                            onChangeText={setUserame} 
+                            />
                     </View>
                     <View style={styles.inputContainer}>
                         <Text style={styles.label}>Email</Text>
@@ -98,7 +92,9 @@ export default Register = () => {
                             placeholder="Enter your email"
                             keyboardType="email-address"
                             placeholderTextColor="#6D8299"
-                            selectionColor="#000000" // Cursor color
+                            selectionColor="#000000"
+                            value={email}
+                            onChangeText={setEmail}
                         />
                     </View>
                     <View style={styles.inputContainer}>
@@ -109,6 +105,8 @@ export default Register = () => {
                             secureTextEntry
                             placeholderTextColor="#6D8299"
                             selectionColor="#000000"
+                            value={password}
+                            onChangeText={setPassword}
                         />
                     </View>
                     <View style={styles.inputContainer}>
@@ -118,24 +116,14 @@ export default Register = () => {
                             placeholder="Confirm your password"
                             secureTextEntry
                             placeholderTextColor="#6D8299"
-                            selectionColor="#000000" 
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Birth Date</Text>
-                        <TextInput
-                            style={styles.textField}
-                            placeholder="DD-MM-YYYY"
-                            placeholderTextColor="#6D8299"
                             selectionColor="#000000"
-                            keyboardType="numeric"
-                            value={birthDate}
-                            onChangeText={handleDateChange} 
+                            value={confirmPassword}
+                            onChangeText={setConfirmPassword}
                         />
                     </View>
                     <Pressable
                         style={styles.createButton}
-                        onPress={handleSubmit}
+                        onPress={handleSignUp}
                     >
                         <Text style={styles.createButtonText}>Create</Text>
                     </Pressable>
