@@ -1,8 +1,8 @@
 import Express from "express";
 import { createTables, User } from './db.js';
-import bcryptjs from "bcryptjs"
-import jsonwebtoken from 'jsonwebtoken'
 import cors from "cors"
+import { register } from './controller/auth.controller.js'
+import { login } from './controller/auth.controller.js'
 
 const app = Express()
 app.use(Express.json())
@@ -10,55 +10,8 @@ app.use(cors())
 // createTables()
 
 
-app.post('/signup', async (req, res) => {
-    const { username, email, password } = req.body
-    if (!username || !email || !password ) {
-        res.send('You need to fill all the fields.')
-        return
-    }
-    const existUser = await User.findOne({ where: { email: email } })
-    if (existUser) {
-        res.send('User alredy exists.')
-        return
-    }
+app.post('/signup', register)
 
-    const passCrypto = bcryptjs.hashSync(password, 10)
-    const createdUser = await User.create({ username, email, password: passCrypto })
-    res.send('OK, user created.')
-})
-
-app.post('/login', async (req, res) => {
-    const { username, password } = req.body
-    if (!username || !password) {
-        res.send('You need to fill all the fields.')
-        return
-    }
-    const userExist = await User.findOne({ where: { username: username } })
-    if (!userExist) {
-        res.send('User alredy exists.')
-        return
-    }
-    const validPass = bcryptjs.compareSync(password, userExist.password)
-    if (!validPass) {
-        res.send('Invalid Password')
-        return
-    }
-    const token = jsonwebtoken.sign(
-        {
-            "username": userExist.username,
-            "email": userExist.email,
-            "status": userExist.status
-        },
-        "keycryptojwt",
-        { expiresIn: 1000 * 60 * 5 }
-
-    )
-    console.log(token)
-    res.send({
-        msg: "Ok, user logged",
-        tokenJWT: token
-    })
-}
-)
+app.post('/login', login)
 
 app.listen(8000)
