@@ -23,7 +23,7 @@ export default Register = () => {
 
     const handleSignUp = async () => {
         if (password !== confirmPassword) {
-            alert("Passwords do not match!");
+            alert("Passwords don't match!");
             return;
         }
 
