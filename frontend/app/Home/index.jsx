@@ -23,6 +23,7 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     marginBottom: 1,
+    
   },
   img: {
     width: 52,
