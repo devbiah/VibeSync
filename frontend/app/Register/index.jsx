@@ -28,7 +28,7 @@ export default Register = () => {
         }
 
         try {
-            const response = await fetch('https://localhost:8000/signup', {
+            const response = await fetch('http://localhost:8000/auth/signup', {
                 method: "POST",
                 headers: {
                     Accept: 'application/json',

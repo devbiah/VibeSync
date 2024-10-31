@@ -11,7 +11,6 @@ const Login = () => {
     "Inter-Italic": require("../../assets/font/InterBoldItalic.ttf"),
   });
   
-  // Move the state declarations inside the component
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
 
@@ -25,7 +24,7 @@ const Login = () => {
   
   const handleSignIn = async () => {
     try {
-      const response = await fetch('http://localhost:8000/login', { 
+      const response = await fetch('http://localhost:8000/auth/login', { 
         method: 'POST',
         headers: {
           Accept: 'application/json',

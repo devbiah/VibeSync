@@ -27,7 +27,7 @@ const login = async (req, res) => {
     }
     const userExist = await User.findOne({ where: { username: username } })
     if (!userExist) {
-        res.send('User alredy exists.')
+        res.send('User does not exist.')
         return
     }
     const validPass = bcryptjs.compareSync(password, userExist.password)
