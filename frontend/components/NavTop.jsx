@@ -16,7 +16,7 @@ const NavTop = () => {
       <Pressable style={styles.itemContainer} onPress={Home}>
         <Image
           style={styles.img}
-          source={require("../assets/img/icon.svg")}
+          source={require("../assets/svg/icon.svg")}
           resizeMode="contain"
         />
         <Text style={styles.text}>Recommended</Text>
@@ -24,7 +24,7 @@ const NavTop = () => {
       <Pressable style={styles.personContainer} onPress={Profile}>
         <Image
           style={styles.img}
-          source={require("../assets/img/person.svg")}
+          source={require("../assets/svg/person.svg")}
           resizeMode="contain"
         />
       </Pressable>

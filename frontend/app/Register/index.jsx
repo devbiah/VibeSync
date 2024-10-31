@@ -22,11 +22,16 @@ export default Register = () => {
     }
 
     const handleSignUp = async () => {
-        if (password !== confirmPassword) {
-            alert("Passwords don't match!");
+        if (!username || !email || !password || !confirmPassword) {
+            alert("Please fill in all fields!");
             return;
         }
-
+    
+        if (password !== confirmPassword) {
+            alert("Passwords do not match!");
+            return;
+        }
+    
         try {
             const response = await fetch('http://localhost:8000/auth/signup', {
                 method: "POST",
@@ -40,7 +45,7 @@ export default Register = () => {
                     password
                 })
             });
-
+    
             if (response.ok) {
                 alert('User created successfully');
                 router.push('/Login');
@@ -52,7 +57,7 @@ export default Register = () => {
             console.error("Error: ", error);
             alert("An error occurred. Please try again later.");
         }
-
+    
     };
     const handleSignIn = () => {
         router.push('/Login');
@@ -67,7 +72,7 @@ export default Register = () => {
                 <View style={styles.imageContainer}>
                     <Image
                         style={styles.img}
-                        source={require('../../assets/img/soloIcon.svg')}
+                        source={require('../../assets/svg/soloIcon.svg')}
                     />
                 </View>
                 <View style={styles.text}>

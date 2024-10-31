@@ -17,7 +17,7 @@ const NavTopPlaylist = () => {
       <Pressable style={styles.itemContainer} onPress={Home}>
         <Image
           style={styles.img}
-          source={require("../assets/img/icon.svg")}
+          source={require("../assets/svg/icon.svg")}
           resizeMode="contain"
         />
         <Text style={styles.text}>Saved Playlists</Text>
@@ -26,7 +26,7 @@ const NavTopPlaylist = () => {
       <Pressable style={styles.personContainer} onPress={Person}>
         <Image
           style={styles.img}
-          source={require("../assets/img/person.svg")}
+          source={require("../assets/svg/person.svg")}
           resizeMode="contain"
         />
       </Pressable>

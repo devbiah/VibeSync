@@ -6,6 +6,7 @@ import { Pressable, StyleSheet, Text, TextInput, View, Alert } from "react-nativ
 import { useState } from "react";
 
 const Login = () => {
+  
   const [fontsLoaded] = useFonts({
     Inter: require("../../assets/font/Inter.ttf"),
     "Inter-Italic": require("../../assets/font/InterBoldItalic.ttf"),
@@ -53,7 +54,7 @@ const Login = () => {
         <View style={styles.imageContainer}>
           <Image
             style={styles.img}
-            source={require("../../assets/img/soloIcon.svg")}
+            source={require("../../assets/svg/soloIcon.svg")}
           />
         </View>
         <View style={styles.text}>

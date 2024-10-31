@@ -18,7 +18,7 @@ const NavBar = () => {
       <Pressable style={styles.itemContainer} onPress={Home}>
         <Image
           style={styles.img}
-          source={require("../assets/img/home.svg")}
+          source={require("../assets/svg/home.svg")}
           resizeMode="contain"
         />
         <Text style={styles.label}>Home</Text>
@@ -27,7 +27,7 @@ const NavBar = () => {
       <Pressable style={styles.itemContainer} onPress={Search}>
         <Image
           style={styles.img}
-          source={require("../assets/img/search.svg")}
+          source={require("../assets/svg/search.svg")}
           resizeMode="contain"
         />
         <Text style={styles.label}>Search</Text>
@@ -36,7 +36,7 @@ const NavBar = () => {
       <Pressable style={styles.itemContainer} onPress={Save}>
         <Image
           style={styles.img}
-          source={require("../assets/img/save.svg")}
+          source={require("../assets/svg/save.svg")}
           resizeMode="contain"
         />
         <Text style={styles.label}>Save</Text>

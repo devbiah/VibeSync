@@ -14,7 +14,7 @@ export default FirstPage = () => {
         <View>
           <Image
             style={styles.img}
-            source={require("../assets/img/firstIcon.svg")}
+            source={require("../assets/svg/firstIcon.svg")}
           />
         </View>
 

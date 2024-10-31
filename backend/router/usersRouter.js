@@ -1,9 +1,10 @@
 import express from 'express'
-import { deleteUser, allUsers } from '../controller/userController.js'
+import { deleteUser, allUsers, oneUser } from '../controller/userController.js'
 
 const userRouter = express.Router()
 
-userRouter.get('/users', allUsers);
-userRouter.delete('/users/:id', deleteUser);
+userRouter.get('/allUsers', allUsers);
+userRouter.get('/:username', oneUser);
+userRouter.delete('/delete/:username', deleteUser);
 
 export { userRouter }

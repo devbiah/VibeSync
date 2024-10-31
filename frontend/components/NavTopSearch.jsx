@@ -14,7 +14,7 @@ const NavTopSearch = () => {
         <Pressable style={styles.itemContainer}>
           <Image
             style={styles.img}
-            source={require("../assets/img/searchDark.svg")}
+            source={require("../assets/svg/searchDark.svg")}
             resizeMode="contain"
           />
         </Pressable>
