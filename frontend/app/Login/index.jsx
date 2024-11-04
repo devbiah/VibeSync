@@ -3,10 +3,12 @@ import { Image } from "expo-image";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, TextInput, View, Alert } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
+import { AppContext } from "../../scripts/appContext";
 
 const Login = () => {
-  
+  const {userInfo,setUserInfo} = useContext(AppContext);
+
   const [fontsLoaded] = useFonts({
     Inter: require("../../assets/font/Inter.ttf"),
     "Inter-Italic": require("../../assets/font/InterBoldItalic.ttf"),
@@ -35,7 +37,8 @@ const Login = () => {
       });
 
       const data = await response.json();
-
+      setUserInfo(data.userInfo)
+      
       if (response.ok) {
         Alert.alert('Success', data.msg);
         router.push("/Home");

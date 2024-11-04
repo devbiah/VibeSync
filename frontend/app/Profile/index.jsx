@@ -2,10 +2,13 @@ import { useFonts } from "expo-font";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View, Alert, Modal } from "react-native";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
+import { AppContext } from '../../scripts/appContext'
 
 const Profile = () => {
+    const {userInfo, setUserInfo} = useContext(AppContext)
+
     const [fontsLoaded] = useFonts({
         Inter: require("../../assets/font/Inter.ttf"),
         "Inter-Italic": require("../../assets/font/InterBoldItalic.ttf"),
@@ -29,13 +32,13 @@ const Profile = () => {
         setModalVisible(false);
 
         try {
-            const response = await fetch(`http://localhost:8000/users/delete/${username}`, {
+            const response = await fetch(`http://localhost:8000/users/delete/${userInfo.username}`, {
                 method: 'DELETE',
             });
 
             if (response.ok) {
                 Alert.alert('Account deleted successfully');
-                router.push("/register");
+                router.push("/Register");
             } else {
                 const errorData = await response.json();
                 Alert.alert('Error deleting account', errorData.message);
@@ -43,6 +46,10 @@ const Profile = () => {
         } catch (error) {
             Alert.alert('Error', 'An error occurred while trying to delete the account');
         }
+    };
+
+    const handleChange = () => {
+        Alert.alert('Change Account', 'Account change functionality is not implemented yet');
     };
 
     return (
@@ -58,22 +65,23 @@ const Profile = () => {
                 <Pressable style={styles.uploadContainer}>
                     <Image source={require("../../assets/svg/upload.svg")} style={styles.uploadIcon} />
                 </Pressable>
-
-                <Text style={styles.username}>Username</Text>
-
+                <View style={styles.usernameContainer}>
+                    <Text style={styles.username}>Username</Text>
+                    <Pressable onPress={handleChange}>
+                        <Image source={require("../../assets/svg/Edit.svg")} style={styles.editIcon} />
+                    </Pressable>
+                </View>
                 <Text style={styles.planTop}>Click on the plan of your choice</Text>
-
                 <View style={styles.plansContainer}>
                     <Pressable style={styles.planBox}>
                         <Text style={styles.planTitle}>Basic+</Text>
-                        <Text style={styles.planPromo}><Text style={styles.planText}>R$20,00</Text>  R$0,10</Text>
+                        <Text style={styles.planPromo}><Text style={styles.planText}>R$20,00</Text> R$0,10</Text>
                     </Pressable>
                     <Pressable style={styles.planBox}>
                         <Text style={styles.planTitle}>Premium</Text>
-                        <Text style={styles.planPromo}><Text style={styles.planText}>R$59,00</Text>  R$1,00</Text>
+                        <Text style={styles.planPromo}><Text style={styles.planText}>R$59,00</Text> R$1,00</Text>
                     </Pressable>
                 </View>
-
                 <Pressable style={styles.deleteButton} onPress={confirmDeleteAccount}>
                     <Text style={styles.deleteButtonText}>Delete Account</Text>
                 </Pressable>
@@ -147,12 +155,21 @@ const styles = StyleSheet.create({
         width: 82,
         height: 82,
     },
+    usernameContainer: {
+        flexDirection: "row",
+        alignItems: "center",
+        marginBottom: 10,
+    },
     username: {
         fontSize: 32,
         color: "#242B33",
         fontFamily: "Inter",
         fontWeight: "800",
-        marginBottom: 10,
+    },
+    editIcon: {
+        width: 24,
+        height: 24,
+        marginLeft: 2,
     },
     planTop: {
         fontSize: 16,
@@ -160,9 +177,9 @@ const styles = StyleSheet.create({
         marginBottom: 20,
     },
     planText: {
-        textDecorationLine:"line-through",
-        color:"#B4C6D7",
-        fontSize:12
+        textDecorationLine: "line-through",
+        color: "#B4C6D7",
+        fontSize: 12,
     },
     plansContainer: {
         flexDirection: "row",
@@ -186,9 +203,8 @@ const styles = StyleSheet.create({
         color: "#FFFFFF",
         fontSize: 20,
     },
-
     deleteButton: {
-        marginTop: 20,
+        marginTop: 10,
         width: 200,
         height: 50,
         backgroundColor: "#4B3232",

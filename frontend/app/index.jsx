@@ -4,6 +4,7 @@ import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 
 export default FirstPage = () => {
+
   const handleSignUp = () => {
     router.push("/Register");
   };

@@ -48,7 +48,8 @@ const login = async (req, res) => {
     console.log(token)
     res.send({
         msg: "Ok, user logged",
-        tokenJWT: token
+        tokenJWT: token,
+        userInfo: userExist
     })
 }
 
