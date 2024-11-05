@@ -8,10 +8,16 @@ const register = async (req, res) => {
         res.send('You need to fill all the fields.')
         return
     }
-    const existUser = await User.findOne({ where: { email: email } })
-    if (existUser) {
-        res.send('User alredy exists.')
-        return
+    const userByUsername = await User.findOne({ where: { username: username } });
+    if (userByUsername) {
+        res.status(400).send({ message: 'Username already exists' });
+        return;
+    }
+
+    const userByEmail = await User.findOne({ where: { email: email } });
+    if (userByEmail) {
+        res.status(400).send({ message: 'Email already exists' });
+        return;
     }
 
     const passCrypto = bcryptjs.hashSync(password, 10)

@@ -1,20 +1,22 @@
 import { useFonts } from "expo-font";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import { Pressable, StyleSheet, Text, View, Alert, Modal } from "react-native";
+import { Pressable, StyleSheet, Text, View, Alert, Modal, TextInput } from "react-native";
 import { useContext, useState } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppContext } from '../../scripts/appContext'
 
 const Profile = () => {
-    const {userInfo, setUserInfo} = useContext(AppContext)
+    const { userInfo, setUserInfo } = useContext(AppContext)
+    const [modalVisible, setModalVisible] = useState(false);
+    const [newPassword, setNewPassword] = useState('');
+    const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
 
     const [fontsLoaded] = useFonts({
         Inter: require("../../assets/font/Inter.ttf"),
         "Inter-Italic": require("../../assets/font/InterBoldItalic.ttf"),
     });
 
-    const [modalVisible, setModalVisible] = useState(false);
 
     if (!fontsLoaded) {
         return null;
@@ -28,6 +30,28 @@ const Profile = () => {
         setModalVisible(true);
     };
 
+    const handleChangePassword = async () => {
+        setChangePasswordModalVisible(false);
+
+        try {
+            const response = await fetch(`http://localhost:8000/users/changepassword`, {
+                method: 'PATCH',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ username: userInfo.username, newPassword }),
+            });
+
+            if (response.ok) {
+                Alert.alert('Password changed successfully');
+            } else {
+                const errorData = await response.json();
+                Alert.alert('Error changing password', errorData.message);
+            }
+        } catch (error) {
+            Alert.alert('Error', 'An error occurred while trying to change the password');
+        }
+    };
     const handleDeleteAccount = async () => {
         setModalVisible(false);
 
@@ -48,9 +72,6 @@ const Profile = () => {
         }
     };
 
-    const handleChange = () => {
-        Alert.alert('Change Account', 'Account change functionality is not implemented yet');
-    };
 
     return (
         <LinearGradient colors={["#6D8299", "#242B33"]} style={styles.background}>
@@ -66,10 +87,7 @@ const Profile = () => {
                     <Image source={require("../../assets/svg/upload.svg")} style={styles.uploadIcon} />
                 </Pressable>
                 <View style={styles.usernameContainer}>
-                    <Text style={styles.username}>Username</Text>
-                    <Pressable onPress={handleChange}>
-                        <Image source={require("../../assets/svg/Edit.svg")} style={styles.editIcon} />
-                    </Pressable>
+                    <Text style={styles.username}>{userInfo.username || "Loading..."}</Text>
                 </View>
                 <Text style={styles.planTop}>Click on the plan of your choice</Text>
                 <View style={styles.plansContainer}>
@@ -82,10 +100,40 @@ const Profile = () => {
                         <Text style={styles.planPromo}><Text style={styles.planText}>R$59,00</Text> R$1,00</Text>
                     </Pressable>
                 </View>
+                <Pressable style={styles.editButton} onPress={() => setChangePasswordModalVisible(true)}>
+                    <Text style={styles.edit}>Change your password here.</Text>
+                </Pressable>
                 <Pressable style={styles.deleteButton} onPress={confirmDeleteAccount}>
                     <Text style={styles.deleteButtonText}>Delete Account</Text>
                 </Pressable>
             </View>
+            <Modal
+                transparent={true}
+                visible={changePasswordModalVisible}
+                animationType="fade"
+                onRequestClose={() => setChangePasswordModalVisible(false)}
+            >
+                <View style={styles.modalOverlay}>
+                    <View style={styles.modalContainer}>
+                        <Text style={styles.modalTitle}>Enter new password:</Text>
+                        <TextInput
+                            style={styles.input}
+                            placeholder="New Password"
+                            value={newPassword}
+                            onChangeText={setNewPassword}
+                            secureTextEntry
+                        />
+                        <View style={styles.buttonContainer}>
+                            <Pressable style={styles.modalButtonCancel} onPress={() => setChangePasswordModalVisible(false)}>
+                                <Text style={styles.modalButtonText}>Cancel</Text>
+                            </Pressable>
+                            <Pressable style={styles.modalButton} onPress={handleChangePassword}>
+                                <Text style={styles.modalButtonText}>New Password</Text>
+                            </Pressable>
+                        </View>
+                    </View>
+                </View>
+            </Modal>
 
             <Modal
                 transparent={true}
@@ -118,6 +166,21 @@ const styles = StyleSheet.create({
         justifyContent: "center",
         alignItems: "center",
     },
+    input: {
+        borderWidth: 1,
+        marginBottom: 20,
+        paddingHorizontal: 10,
+        width: '100%',
+        height: 40,
+        borderColor: "#6D8299",
+        borderWidth: 2,
+        borderRadius: 4,
+        color: "#6D8299",
+        fontWeight: "bold",
+        paddingHorizontal: 10,
+        textAlign: "left",
+        borderRadius: 10,
+    },
     navbar: {
         position: "absolute",
         top: 15,
@@ -136,7 +199,6 @@ const styles = StyleSheet.create({
         width: 34,
         height: 34,
         marginLeft: 250,
-        marginBottom: 1,
     },
     container: {
         backgroundColor: "#B4C6D7",
@@ -166,10 +228,11 @@ const styles = StyleSheet.create({
         fontFamily: "Inter",
         fontWeight: "800",
     },
-    editIcon: {
-        width: 24,
-        height: 24,
-        marginLeft: 2,
+    edit: {
+        color: "#242B33",
+        fontWeight: "bold",
+        padding: 5,
+        textDecorationLine: "underline"
     },
     planTop: {
         fontSize: 16,
@@ -185,6 +248,7 @@ const styles = StyleSheet.create({
         flexDirection: "row",
         justifyContent: "space-between",
         width: "100%",
+        marginBottom: 10,
     },
     planBox: {
         backgroundColor: "#6D8299",
@@ -205,6 +269,7 @@ const styles = StyleSheet.create({
     },
     deleteButton: {
         marginTop: 10,
+        marginBottom: 10,
         width: 200,
         height: 50,
         backgroundColor: "#4B3232",
@@ -230,23 +295,32 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     modalTitle: {
-        color: "#242B33",
         fontSize: 18,
         textAlign: "center",
         marginBottom: 20,
+        color: "#242B33",
+        fontWeight: "bold",
     },
     buttonContainer: {
         flexDirection: "row",
         justifyContent: "space-between",
-        width: "100%",
+        width: '100%'
     },
     modalButton: {
         flex: 1,
-        marginHorizontal: 10,
+        margin: 3,
         paddingVertical: 10,
         backgroundColor: "#242B33",
         borderRadius: 5,
         alignItems: "center",
+    },
+    modalButtonCancel: {
+        flex: 1,
+        margin: 3,
+        paddingVertical: 10,
+        borderRadius: 5,
+        alignItems: "center",
+        backgroundColor: "#4B3232",
     },
     modalButtonText: {
         color: "#B4C6D7",

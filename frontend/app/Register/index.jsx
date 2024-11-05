@@ -26,12 +26,12 @@ export default Register = () => {
             alert("Please fill in all fields!");
             return;
         }
-    
+
         if (password !== confirmPassword) {
             alert("Passwords do not match!");
             return;
         }
-    
+
         try {
             const response = await fetch('http://localhost:8000/auth/signup', {
                 method: "POST",
@@ -40,107 +40,114 @@ export default Register = () => {
                     "Content-Type": 'application/json'
                 },
                 body: JSON.stringify({
-                    username,
-                    email,
-                    password
+                    username: username,
+                    email: email,
+                    password: password
                 })
             });
-    
+
             if (response.ok) {
                 alert('User created successfully');
                 router.push('/Login');
             } else {
                 const errorResponse = await response.json();
-                alert(errorResponse.message || 'Something went wrong');
+                if (errorResponse.message === 'Username already exists') {
+                    alert('This username is already taken. Please choose another.');
+                } else if (errorResponse.message === 'Email already exists') {
+                    alert('This email is already registered. Please use a different email.');
+                } else {
+                    alert(errorResponse.message || 'Something went wrong');
+                }
             }
         } catch (error) {
             console.error("Error: ", error);
             alert("An error occurred. Please try again later.");
         }
-    
-    };
-    const handleSignIn = () => {
-        router.push('/Login');
-    };
 
-    return (
-        <LinearGradient
-            colors={['#6D8299', '#242B33']}
-            style={styles.background}
-        >
-            <View style={styles.container}>
-                <View style={styles.imageContainer}>
-                    <Image
-                        style={styles.img}
-                        source={require('../../assets/svg/soloIcon.svg')}
+
+};
+const handleSignIn = () => {
+    router.push('/Login');
+};
+
+return (
+    <LinearGradient
+        colors={['#6D8299', '#242B33']}
+        style={styles.background}
+    >
+        <View style={styles.container}>
+            <View style={styles.imageContainer}>
+                <Image
+                    style={styles.img}
+                    source={require('../../assets/svg/soloIcon.svg')}
+                />
+            </View>
+            <View style={styles.text}>
+                <Text style={styles.firstText}>Create your Account</Text>
+            </View>
+            <View style={styles.form}>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Username</Text>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder="Enter your username"
+                        placeholderTextColor="#6D8299"
+                        selectionColor="#000000"
+                        value={username}
+                        onChangeText={setUserame}
                     />
                 </View>
-                <View style={styles.text}>
-                    <Text style={styles.firstText}>Create your Account</Text>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Email</Text>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder="Enter your email"
+                        keyboardType="email-address"
+                        placeholderTextColor="#6D8299"
+                        selectionColor="#000000"
+                        value={email}
+                        onChangeText={setEmail}
+                    />
                 </View>
-                <View style={styles.form}>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Username</Text>
-                        <TextInput
-                            style={styles.textField}
-                            placeholder="Enter your username"
-                            placeholderTextColor="#6D8299"
-                            selectionColor="#000000"
-                            value={username}
-                            onChangeText={setUserame} 
-                            />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Email</Text>
-                        <TextInput
-                            style={styles.textField}
-                            placeholder="Enter your email"
-                            keyboardType="email-address"
-                            placeholderTextColor="#6D8299"
-                            selectionColor="#000000"
-                            value={email}
-                            onChangeText={setEmail}
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Password</Text>
-                        <TextInput
-                            style={styles.textField}
-                            placeholder="Enter your password"
-                            secureTextEntry
-                            placeholderTextColor="#6D8299"
-                            selectionColor="#000000"
-                            value={password}
-                            onChangeText={setPassword}
-                        />
-                    </View>
-                    <View style={styles.inputContainer}>
-                        <Text style={styles.label}>Confirm Password</Text>
-                        <TextInput
-                            style={styles.textField}
-                            placeholder="Confirm your password"
-                            secureTextEntry
-                            placeholderTextColor="#6D8299"
-                            selectionColor="#000000"
-                            value={confirmPassword}
-                            onChangeText={setConfirmPassword}
-                        />
-                    </View>
-                    <Pressable
-                        style={styles.createButton}
-                        onPress={handleSignUp}
-                    >
-                        <Text style={styles.createButtonText}>Create</Text>
-                    </Pressable>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Password</Text>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder="Enter your password"
+                        secureTextEntry
+                        placeholderTextColor="#6D8299"
+                        selectionColor="#000000"
+                        value={password}
+                        onChangeText={setPassword}
+                    />
                 </View>
-                <Pressable style={styles.button} onPress={handleSignIn}>
-                    <Text style={styles.signInText}>
-                        Already have an account? Sign-in
-                    </Text>
+                <View style={styles.inputContainer}>
+                    <Text style={styles.label}>Confirm Password</Text>
+                    <TextInput
+                        style={styles.textField}
+                        placeholder="Confirm your password"
+                        secureTextEntry
+                        placeholderTextColor="#6D8299"
+                        selectionColor="#000000"
+                        value={confirmPassword}
+                        onChangeText={setConfirmPassword}
+                    />
+                </View>
+                <Pressable
+                    style={styles.createButton}
+                    onPress={handleSignUp}
+                >
+                    <Text style={styles.createButtonText}>Create</Text>
                 </Pressable>
             </View>
-        </LinearGradient>
-    );
+            <Pressable style={styles.button} onPress={handleSignIn}>
+                <Text style={styles.signInText}>
+                    Already have an account? Sign-in
+                </Text>
+            </Pressable>
+        </View>
+    </LinearGradient>
+);
 };
 
 const styles = StyleSheet.create({

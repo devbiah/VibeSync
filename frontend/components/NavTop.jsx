@@ -34,7 +34,7 @@ const NavTop = () => {
 
 const styles = StyleSheet.create({
   img: {
-    width: 25, 
+    width: 50, 
     height: 40,
     resizeMode:"contain",
   },

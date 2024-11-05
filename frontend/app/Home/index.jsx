@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     
   },
   img: {
-    width: 52,
+    width: 62,
     height: 60,
   },
 });
