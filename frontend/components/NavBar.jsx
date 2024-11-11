@@ -47,14 +47,14 @@ const NavBar = () => {
 
 const styles = StyleSheet.create({
   img: {
-    width: 100,
-    height: 50,
+    width: 80,
+    height: 30,
   },
   container: {
     flexDirection: "row",
     justifyContent: "space-around",
     alignItems: "center",
-    height: 80,
+    height: 60,
     backgroundColor: "#242B33",
     paddingVertical: 10,
   },
@@ -65,6 +65,7 @@ const styles = StyleSheet.create({
     color: "#B4C6D7",
     fontWeight: "bold",
     marginTop: 5,
+    fontSize:11
   },
 });
 

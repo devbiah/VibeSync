@@ -29,16 +29,13 @@ const styles = StyleSheet.create({
     justifyContent: "center", 
     alignItems: "center",
     height: 80,
-    paddingHorizontal: 100,
   },
   searchContainer: {
     flexDirection: "row",
     alignItems: "center",
-    flex: 1, 
-    paddingLeft:50
   },
   itemContainer: {
-    marginLeft: 10, 
+    marginLeft: 1, 
   },
   textField: {
     flex: 1,
@@ -52,7 +49,7 @@ const styles = StyleSheet.create({
     textAlign: "left",
   },
   img: {
-    width: 70,
+    width: 60,
     height: 100,
   },
 });

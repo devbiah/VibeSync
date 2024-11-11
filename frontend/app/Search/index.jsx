@@ -15,7 +15,6 @@ const Search = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 10,
     backgroundColor: "#B4C6D7",
   },
 });

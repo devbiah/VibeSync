@@ -1,22 +1,35 @@
 import { useFonts } from "expo-font";
 import { Image } from "expo-image";
 import { router } from "expo-router";
-import { Pressable, StyleSheet, Text, View, Alert, Modal, TextInput } from "react-native";
+import { Pressable, StyleSheet, Text, View, Alert, Modal, TextInput,TouchableOpacity } from "react-native";
 import { useContext, useState } from "react";
+// import { AdvancedImage } from 'cloudinary-react-native';
+// import { Cloudinary } from "@cloudinary/url-gen";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppContext } from '../../scripts/appContext'
+import * as ImagePicker from 'expo-image-picker';
+
+// const cld = new Cloudinary({
+//     cloud: {
+//         cloudName: 'demo'
+//     },
+//     url: {
+//         secure: true
+//     }
+// });
+
 
 const Profile = () => {
     const { userInfo, setUserInfo } = useContext(AppContext)
     const [modalVisible, setModalVisible] = useState(false);
     const [newPassword, setNewPassword] = useState('');
     const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
+    const [image, setImage] = useState(null);
 
     const [fontsLoaded] = useFonts({
         Inter: require("../../assets/font/Inter.ttf"),
         "Inter-Italic": require("../../assets/font/InterBoldItalic.ttf"),
     });
-
 
     if (!fontsLoaded) {
         return null;
@@ -52,6 +65,7 @@ const Profile = () => {
             Alert.alert('Error', 'An error occurred while trying to change the password');
         }
     };
+
     const handleDeleteAccount = async () => {
         setModalVisible(false);
 
@@ -72,6 +86,33 @@ const Profile = () => {
         }
     };
 
+    // const options = {
+    //     upload_preset:'sample_present',
+    //     tag:'sample',
+    //     unsigned: true
+    // }
+
+    // const handleSendImage = async() =>{
+
+    // }
+
+    const pickImage = async () => {
+        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
+        if (!permissionResult.granted) {
+            alert('Permissão para acessar a galeria é necessária!');
+            return;
+        }
+
+        let result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.Images,
+            quality: 1,
+        });
+
+        if (!result.canceled) {
+            setImage(result.assets[0].uri);
+        }
+    };
+
 
     return (
         <LinearGradient colors={["#6D8299", "#242B33"]} style={styles.background}>
@@ -83,9 +124,18 @@ const Profile = () => {
                 <Pressable onPress={handleBack}>
                     <Image source={require("../../assets/svg/close.svg")} style={styles.closeIcon} />
                 </Pressable>
-                <Pressable style={styles.uploadContainer}>
-                    <Image source={require("../../assets/svg/upload.svg")} style={styles.uploadIcon} />
-                </Pressable>
+                <View style={styles.imageButtonWrapper}>
+                    <TouchableOpacity onPress={pickImage} style={styles.imageButton}>
+                        <Image source={require("../../assets/svg/upload.svg")} style={styles.uploadIcon} />
+                    </TouchableOpacity>
+
+                    {image && (
+                        <Image
+                            source={{ uri: image }}
+                            style={styles.selectedImage}
+                        />
+                    )}
+                </View>
                 <View style={styles.usernameContainer}>
                     <Text style={styles.username}>{userInfo.username || "Loading..."}</Text>
                 </View>
@@ -195,6 +245,18 @@ const styles = StyleSheet.create({
         height: 40,
         resizeMode: "contain",
     },
+    selectedImage: {
+        position: 'absolute', 
+        width: 92,
+        height: 92, 
+        borderRadius: 100,
+        resizeMode: 'cover', 
+    },
+    imageButtonWrapper: {
+        position: 'relative',  
+        width: 92,  
+        height: 92, 
+    },
     closeIcon: {
         width: 34,
         height: 34,
@@ -214,8 +276,8 @@ const styles = StyleSheet.create({
         marginBottom: 10,
     },
     uploadIcon: {
-        width: 82,
-        height: 82,
+        width: 92,
+        height: 92,
     },
     usernameContainer: {
         flexDirection: "row",
