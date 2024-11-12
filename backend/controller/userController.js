@@ -38,8 +38,6 @@ const changePasswordUser = async (req, res) => {
     }
 };
 
-
-
 const deleteUser = async (req, res) => {
     const { username } = req.params;
 
@@ -55,5 +53,11 @@ const deleteUser = async (req, res) => {
     }
 };
 
+const updateProfileImage = async (username, secureUrl) => {
+    await User.update(
+        { profileImageUrl: secureUrl },
+        { where: { username } }
+    );
+};
 
-export { allUsers, deleteUser, oneUser,changePasswordUser }
+export { allUsers, deleteUser, oneUser,changePasswordUser,updateProfileImage }

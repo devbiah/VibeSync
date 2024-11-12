@@ -29,6 +29,10 @@ const User = sequelize.define('user', {
         type: Sequelize.DataTypes.ENUM('active', 'inactive'),
         allowNull: false,
         defaultValue: 'inactive'
+    },
+    profileImageUrl: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true 
     }
 })
 

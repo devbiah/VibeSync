@@ -3,20 +3,9 @@ import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View, Alert, Modal, TextInput,TouchableOpacity } from "react-native";
 import { useContext, useState } from "react";
-// import { AdvancedImage } from 'cloudinary-react-native';
-// import { Cloudinary } from "@cloudinary/url-gen";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppContext } from '../../scripts/appContext'
 import * as ImagePicker from 'expo-image-picker';
-
-// const cld = new Cloudinary({
-//     cloud: {
-//         cloudName: 'demo'
-//     },
-//     url: {
-//         secure: true
-//     }
-// });
 
 
 const Profile = () => {
@@ -25,6 +14,7 @@ const Profile = () => {
     const [newPassword, setNewPassword] = useState('');
     const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
     const [image, setImage] = useState(null);
+    const [showConfirmButton, setShowConfirmButton] = useState(false);
 
     const [fontsLoaded] = useFonts({
         Inter: require("../../assets/font/Inter.ttf"),
@@ -86,30 +76,42 @@ const Profile = () => {
         }
     };
 
-    // const options = {
-    //     upload_preset:'sample_present',
-    //     tag:'sample',
-    //     unsigned: true
-    // }
+    
 
-    // const handleSendImage = async() =>{
-
-    // }
+    const handleSendImage = async() =>{
+        try{
+            const data={
+                "file":image,
+                "upload_preset":'ml_default',
+                "name":'teste',
+            }
+            const res = await fetch('https://api.cloudinary.com/v1_1/djmxdrcmy/upload',{
+                method:'POST',
+                headers:{
+                    'content-type':'application/json'
+                },
+                body: JSON.stringify(data)
+            })
+            const result = await res.json();
+            console.log(result)
+            setShowConfirmButton(false)
+        }
+        catch(e){
+            console.log(e)
+        }
+    }
 
     const pickImage = async () => {
-        const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
-        if (!permissionResult.granted) {
-            alert('Permissão para acessar a galeria é necessária!');
-            return;
-        }
-
-        let result = await ImagePicker.launchImageLibraryAsync({
-            mediaTypes: ImagePicker.MediaTypeOptions.Images,
-            quality: 1,
+        const result = await ImagePicker.launchImageLibraryAsync({
+            mediaTypes: ImagePicker.MediaTypeOptions.All,
+            allowsEditing:true,
+            aspect:[4,3],
+            quality:1,
         });
-
         if (!result.canceled) {
+            console.log(result.assets[0]);
             setImage(result.assets[0].uri);
+            setShowConfirmButton(true);
         }
     };
 
@@ -130,10 +132,17 @@ const Profile = () => {
                     </TouchableOpacity>
 
                     {image && (
-                        <Image
-                            source={{ uri: image }}
-                            style={styles.selectedImage}
-                        />
+                        <>
+                            <Image
+                                source={{ uri: image }}
+                                style={styles.selectedImage}
+                            />
+                            {showConfirmButton && (
+                                <TouchableOpacity style={styles.confirmButton} onPress={handleSendImage}>
+                                    <Text style={styles.confirmButtonText}>Confirmar</Text>
+                                </TouchableOpacity>
+                            )}
+                        </>
                     )}
                 </View>
                 <View style={styles.usernameContainer}>
@@ -278,6 +287,19 @@ const styles = StyleSheet.create({
     uploadIcon: {
         width: 92,
         height: 92,
+    },
+    confirmButton: {
+        backgroundColor: "#242B33",
+        borderRadius: 5,
+        alignItems: "center",
+        height:20,
+        width:90,
+        marginTop:75,
+        position:'absolute'
+    },
+    confirmButtonText: {
+        color: "#B4C6D7",
+        fontWeight: "bold",
     },
     usernameContainer: {
         flexDirection: "row",
