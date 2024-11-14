@@ -6,7 +6,7 @@ const userRouter = express.Router()
 userRouter.get('/allUsers', allUsers);
 userRouter.get('/:username', oneUser);
 userRouter.delete('/delete/:username', deleteUser);
-userRouter.patch('/changepassword', changePasswordUser)
-userRouter.patch('/updateProfileImage/:username', updateProfileImage);
+userRouter.patch('/changepassword/:username', changePasswordUser)
+userRouter.post('/updateProfileImage/:username', updateProfileImage);
 
 export { userRouter }

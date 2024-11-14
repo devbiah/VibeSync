@@ -2,7 +2,7 @@ import { useFonts } from "expo-font";
 import { Image } from "expo-image";
 import { router } from "expo-router";
 import { Pressable, StyleSheet, Text, View, Alert, Modal, TextInput,TouchableOpacity } from "react-native";
-import { useContext, useState } from "react";
+import { useContext, useState,useEffect } from "react";
 import { LinearGradient } from "expo-linear-gradient";
 import { AppContext } from '../../scripts/appContext'
 import * as ImagePicker from 'expo-image-picker';
@@ -15,6 +15,12 @@ const Profile = () => {
     const [changePasswordModalVisible, setChangePasswordModalVisible] = useState(false);
     const [image, setImage] = useState(null);
     const [showConfirmButton, setShowConfirmButton] = useState(false);
+
+    useEffect(()=>{
+        if(userInfo.profileImageUrl){
+            setImage(userInfo.profileImageUrl)
+        }
+    },[])
 
     const [fontsLoaded] = useFonts({
         Inter: require("../../assets/font/Inter.ttf"),
@@ -37,7 +43,7 @@ const Profile = () => {
         setChangePasswordModalVisible(false);
 
         try {
-            const response = await fetch(`http://localhost:8000/users/changepassword`, {
+            const response = await fetch(`http://localhost:8000/users/changepassword/${userInfo.username}`, {
                 method: 'PATCH',
                 headers: {
                     'Content-Type': 'application/json',
@@ -47,6 +53,7 @@ const Profile = () => {
 
             if (response.ok) {
                 Alert.alert('Password changed successfully');
+                router.push("/Login");
             } else {
                 const errorData = await response.json();
                 Alert.alert('Error changing password', errorData.message);
@@ -54,6 +61,7 @@ const Profile = () => {
         } catch (error) {
             Alert.alert('Error', 'An error occurred while trying to change the password');
         }
+        
     };
 
     const handleDeleteAccount = async () => {
@@ -76,8 +84,6 @@ const Profile = () => {
         }
     };
 
-    
-
     const handleSendImage = async() =>{
         try{
             const data={
@@ -95,6 +101,26 @@ const Profile = () => {
             const result = await res.json();
             console.log(result)
             setShowConfirmButton(false)
+            if(res.status==200){
+                await udpateImageBackEnd(result.url)
+            }
+        }
+        catch(e){
+            console.log(e)
+        }
+    }
+
+    const udpateImageBackEnd = async (newURL) =>{
+        try{
+            const res = await fetch(`http://localhost:8000/users/updateProfileImage/${userInfo.username}`,{
+                method:'POST',
+                headers:{
+                    'content-type':'application/json'
+                },
+                body: JSON.stringify({secureUrl:newURL})
+            })
+            const result = await res.json();
+            
         }
         catch(e){
             console.log(e)
