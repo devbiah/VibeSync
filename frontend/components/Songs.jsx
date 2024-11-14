@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
     fontSize: 15
   },
   playIcon: {
-    marginLeft: 10
+    marginRight: 10
   },
   textDark: {
     color: "#242B33"

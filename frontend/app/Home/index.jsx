@@ -119,10 +119,10 @@ const Home = () => {
   const router = useRouter();
 
   const navigateToDetailsAlbum = (id) => {
-    router.push(`/album/${id}`);
+    router.push(`/Album/${id}`);
   };
   const navigateToDetailsSong = (id) => {
-    router.push(`/song/${id}`);
+    router.push(`/Song/${id}`);
   };
   return (
     <View style={styles.container}>
