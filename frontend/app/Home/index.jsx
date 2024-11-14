@@ -65,7 +65,7 @@ const albunsData = [
 const songs = [
   {
     id: 1,
-    title: "Birds of Feather",
+    title: "Goldwing",
     artist: "Billie Eilish"
   },
   {
