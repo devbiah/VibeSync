@@ -32,17 +32,17 @@ const getAlbumById = async (req, res) => {
                 {
                     model: Artist,
                     as: 'Artist',
-                    attributes: ['name', 'bio'] 
+                    attributes: ['name', 'bio']
                 },
                 {
                     model: Music,
-                    as: 'Musics', 
+                    as: 'Musics',
                     attributes: ['id', 'title', 'duration', 'fileUrl']
                 }
             ]
         });
         if (!album) {
-            return res.status(404).json({ message: 'Álbum não encontrado' });
+            return res.status(404).json({ message: 'Album not found' });
         }
         res.status(200).json(album);
     } catch (error) {
@@ -58,7 +58,7 @@ const getMusicsByAlbumId = async (req, res) => {
             attributes: ['id', 'title', 'duration', 'fileUrl']
         });
         if (!musics.length) {
-            return res.status(404).json({ message: 'Nenhuma música encontrada para este álbum' });
+            return res.status(404).json({ message: 'No songs found for this album' });
         }
         res.status(200).json(musics);
     } catch (error) {
@@ -66,4 +66,4 @@ const getMusicsByAlbumId = async (req, res) => {
     }
 };
 
-export { allAlbums, getAlbumById, getMusicsByAlbumId,allArtists };
+export { allAlbums, getAlbumById, getMusicsByAlbumId, allArtists };
