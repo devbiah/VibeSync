@@ -8,55 +8,55 @@ import Songs from "../../components/Songs";
 const albunsData = [
   {
     id: 1,
-    imgUrl: "https://akamai.sscdn.co/uploadfile/letras/albuns/3/b/8/d/1336191694609198.jpg",
+    coverImageUrl: "https://akamai.sscdn.co/uploadfile/letras/albuns/3/b/8/d/1336191694609198.jpg",
     title: "Guitar Songs",
     artist: "Billie Eilish"
   },
   {
     id: 2,
-    imgUrl: "https://upload.wikimedia.org/wikipedia/pt/8/82/Bluesman.jpeg",
+    coverImageUrl: "https://upload.wikimedia.org/wikipedia/pt/8/82/Bluesman.jpeg",
     title: "Bluesman",
     artist: "Baco Exu Blues"
   },
   {
     id: 3,
-    imgUrl: "https://cdn-images.dzcdn.net/images/cover/bb2880548dd3bc71fb97def2eedec130/500x500.jpg",
+    coverImageUrl: "https://cdn-images.dzcdn.net/images/cover/bb2880548dd3bc71fb97def2eedec130/500x500.jpg",
     title: "Happier Than Ever",
     artist: "Billie Eilish"
   },
   {
     id: 4,
-    imgUrl: "https://m.media-amazon.com/images/I/81mI2S59PzL._UF894,1000_QL80_.jpg",
+    coverImageUrl: "https://m.media-amazon.com/images/I/81mI2S59PzL._UF894,1000_QL80_.jpg",
     title: "Lust for Life",
     artist: "Lana del Rey"
   },
   {
     id: 5,
-    imgUrl: "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/11/7a/b8/117ab805-6811-8929-18b9-0fad7baf0c25/17UMGIM98210.rgb.jpg/600x600bf-60.jpg",
+    coverImageUrl: "https://is1-ssl.mzstatic.com/image/thumb/Music126/v4/11/7a/b8/117ab805-6811-8929-18b9-0fad7baf0c25/17UMGIM98210.rgb.jpg/600x600bf-60.jpg",
     title: "Evolve",
     artist: "Imagine Dragons"
   },
   {
     id: 6,
-    imgUrl: "https://m.media-amazon.com/images/I/81iC+O0ec2L.jpg",
+    coverImageUrl: "https://m.media-amazon.com/images/I/81iC+O0ec2L.jpg",
     title: "Hybrid Theory",
     artist: "Linkin Park"
   },
   {
     id: 7,
-    imgUrl: "https://upload.wikimedia.org/wikipedia/pt/8/89/Positions_de_Ariana_Grande.png",
+    coverImageUrl: "https://upload.wikimedia.org/wikipedia/pt/8/89/Positions_de_Ariana_Grande.png",
     title: "Positions",
     artist: "Ariana Grande"
   },
   {
     id: 8,
-    imgUrl: "https://mosaic.scdn.co/300/ab67616d00001e0258c5c044fc7c4b3d540ef600ab67616d00001e025f7fc59ffe1d39cc1e2a2b76ab67616d00001e02b8a4b06e14e6796bb9015ea3ab67616d00001e02cee99dfe5e238701c32bff48",
+    coverImageUrl: "https://mosaic.scdn.co/300/ab67616d00001e0258c5c044fc7c4b3d540ef600ab67616d00001e025f7fc59ffe1d39cc1e2a2b76ab67616d00001e02b8a4b06e14e6796bb9015ea3ab67616d00001e02cee99dfe5e238701c32bff48",
     title: "Poetas no topo",
     artist: "Todos os poetas no topo"
   },
   {
     id: 9,
-    imgUrl: "https://i.scdn.co/image/ab67616d0000b273e8b917e248fdbc970d30f885",
+    coverImageUrl: "https://i.scdn.co/image/ab67616d0000b273e8b917e248fdbc970d30f885",
     title: "Homem Torto",
     artist: "Kamaitachi"
   },

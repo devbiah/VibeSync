@@ -25,26 +25,95 @@ const User = sequelize.define('user', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
     },
-    status: {
-        type: Sequelize.DataTypes.ENUM('active', 'inactive'),
-        allowNull: false,
-        defaultValue: 'inactive'
-    },
     profileImageUrl: {
         type: Sequelize.DataTypes.STRING,
-        allowNull: true 
+        allowNull: true
     }
 })
 
+const Artist = sequelize.define('Artist', {
+    name: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+    },
+    bio: {
+        type: Sequelize.DataTypes.TEXT,
+        allowNull: true,
+    },
+    imageUrl: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true,
+    }
+})
+
+const Album = sequelize.define('Album', {
+    title: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+    },
+    releaseYear: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    coverImageUrl: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: true,
+    },
+});
+
+Album.belongsTo(Artist, {
+    foreignKey: 'artistId',
+    onDelete: 'CASCADE',
+});
+
+Artist.hasMany(Album, {
+    foreignKey: 'artistId',
+    as: 'Albums'
+});
+
+const Music = sequelize.define('Music', {
+    title: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+    },
+    duration: {
+        type: Sequelize.DataTypes.INTEGER,
+        allowNull: false,
+    },
+    fileUrl: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+    },
+    gif: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+    }
+});
+
+Music.belongsTo(Album, {
+    foreignKey: 'albumId',
+    onDelete: 'CASCADE',
+});
+Music.belongsTo(Artist, {
+    foreignKey: 'artistId',
+    onDelete: 'CASCADE',
+});
+Album.hasMany(Music, {
+    foreignKey: 'albumId',
+    as: 'Musics'
+});
+
+
 const createTables = () => {
     sequelize.authenticate().then(() => {
-        console.log('conected')
+        console.log('Conected')
     })
         .catch((err) => {
             console.log(err)
         })
-    sequelize.sync({ force: true }).then(() => {
+    sequelize.sync({ alter: true }).then(() => {
         console.log('Created Table')
     })
 }
-export { User, sequelize, createTables };
+
+export { User, sequelize, createTables, Artist, Album, Music };

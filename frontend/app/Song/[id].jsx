@@ -7,8 +7,8 @@ const song = [
     id: 1,
     title: "Goldwing",
     artist: "Billie Eilish",
-    img: "https://upload.wikimedia.org/wikipedia/pt/e/e8/Happier_Than_Ever_%28%C3%A1lbum%29_-_Billie_Eilish.png",
-    backgroundImg: require("../../assets/videos/GOLDWING.gif"),
+    fileUrl: "https://upload.wikimedia.org/wikipedia/pt/e/e8/Happier_Than_Ever_%28%C3%A1lbum%29_-_Billie_Eilish.png",
+    gif: require("../../assets/videos/GOLDWING.gif"),
     song: require("../../assets/music/goldwing.mp3"),
   },
 ];
@@ -28,10 +28,10 @@ export default function SongDetail() {
 
   return (
     <View style={styles.container}>
-      <Image source={songs.backgroundImg} style={styles.background} />
+      <Image source={songs.gif} style={styles.background} />
       <MusicNav />
       <View style={styles.songContainer}>
-        <Image source={{ uri: songs.img }} style={styles.image} />
+        <Image source={{ uri: songs.fileUrl }} style={styles.image} />
         <View style={styles.textContainer}>
           <Text style={styles.artist}>{songs.artist}</Text>
           <Text style={styles.title} numberOfLines={1}>
@@ -58,7 +58,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
     top: 0,
     left: 0,
-    zIndex: -1, // Position the background image behind all content
+    zIndex: -1,
   },
   songContainer: {
     flexDirection: 'row',

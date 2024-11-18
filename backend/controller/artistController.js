@@ -1,0 +1,69 @@
+import { Album, Artist, Music } from "../db.js";
+
+const allArtists = async (req, res) => {
+    try {
+        const allArtists = await Artist.findAll();
+        res.status(200).json(allArtists);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const allAlbums = async (req, res) => {
+    try {
+        const allAlbums = await Album.findAll({
+            include: {
+                model: Artist,
+                as: 'Artist',
+                attributes: ['name']
+            }
+        });
+        res.status(200).json(allAlbums);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getAlbumById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const album = await Album.findByPk(id, {
+            include: [
+                {
+                    model: Artist,
+                    as: 'Artist',
+                    attributes: ['name', 'bio'] 
+                },
+                {
+                    model: Music,
+                    as: 'Musics', 
+                    attributes: ['id', 'title', 'duration', 'fileUrl']
+                }
+            ]
+        });
+        if (!album) {
+            return res.status(404).json({ message: 'Álbum não encontrado' });
+        }
+        res.status(200).json(album);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+const getMusicsByAlbumId = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const musics = await Music.findAll({
+            where: { albumId: id },
+            attributes: ['id', 'title', 'duration', 'fileUrl']
+        });
+        if (!musics.length) {
+            return res.status(404).json({ message: 'Nenhuma música encontrada para este álbum' });
+        }
+        res.status(200).json(musics);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export { allAlbums, getAlbumById, getMusicsByAlbumId,allArtists };

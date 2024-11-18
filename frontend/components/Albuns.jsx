@@ -14,7 +14,7 @@ const Albuns = ({ albuns, onNavigateToDetails }) => {
                 renderItem={({ item, index }) => (
                     <Pressable onPress={() => onNavigateToDetails(item.id)} style={[styles.card, index % 2 === 0 ? styles.cardDark : styles.cardLight]}>
                         <View style={styles.imageContainer}>
-                            <Image source={{ uri: item.imgUrl }} style={styles.image} />
+                            <Image source={{ uri: item.coverImageUrl }} style={styles.image} />
                             <Ionicons
                                 name="play-circle-outline"
                                 size={50}
