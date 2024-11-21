@@ -9,7 +9,7 @@ const Albuns = ({ albuns, onNavigateToDetails }) => {
             <FlatList
                 style={styles.flatfirst}
                 data={albuns}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.id}
                 horizontal
                 renderItem={({ item, index }) => (
                     <Pressable onPress={() => onNavigateToDetails(item.id)} style={[styles.card, index % 2 === 0 ? styles.cardDark : styles.cardLight]}>
@@ -26,7 +26,7 @@ const Albuns = ({ albuns, onNavigateToDetails }) => {
                             {item.title}
                         </Text>
                         <Text style={[styles.artist, index % 2 === 0 ? styles.textDark : styles.textLight]} numberOfLines={1} ellipsizeMode="tail">
-                            {item.artist}
+                            {item.Artist.name}
                         </Text>
                     </Pressable>
                 )}

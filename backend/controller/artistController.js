@@ -66,4 +66,26 @@ const getMusicsByAlbumId = async (req, res) => {
     }
 };
 
-export { allAlbums, getAlbumById, getMusicsByAlbumId, allArtists };
+const songs = async (req, res) => {
+    try {
+        const songs = await Music.findAll({
+            include: {
+                model: Artist,
+                as: 'Artist',
+                attributes: ['name']
+            },
+            attributes: ['title','id']
+        });
+
+        const formattedSongs = songs.map(song => ({
+            artist: song.Artist.name,
+            songTitle: song.title,
+            id: song.id
+        }));
+
+        res.status(200).json(formattedSongs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+export { allAlbums, getAlbumById, getMusicsByAlbumId, allArtists, songs };
