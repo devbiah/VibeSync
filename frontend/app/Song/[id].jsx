@@ -10,7 +10,7 @@ export default function SongDetail() {
   const router = useRouter();
 
   const [song, setSong] = useState(null);
-  const [songs, setSongs] = useState([]);  // Novo estado para armazenar todas as músicas
+  const [songs, setSongs] = useState([]);  
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -24,7 +24,7 @@ export default function SongDetail() {
           throw new Error('Songs not found');
         }
         const songsData = await response.json();
-        setSongs(songsData);  // Armazenando todas as músicas
+        setSongs(songsData); 
       } catch (error) {
         setError(error.message);
       }
@@ -68,13 +68,13 @@ export default function SongDetail() {
 
   const goToNextSong = () => {
     const currentIndex = songs.findIndex((songItem) => songItem.id === Number(id));
-    const nextSong = songs[(currentIndex + 1) % songs.length]; // Próxima música, vai para o início se estiver na última
+    const nextSong = songs[(currentIndex + 1) % songs.length]; 
     router.push(`/Song/${nextSong.id}`);
   };
 
   const goToPreviousSong = () => {
     const currentIndex = songs.findIndex((songItem) => songItem.id === Number(id));
-    const prevSong = songs[(currentIndex - 1 + songs.length) % songs.length]; // Música anterior, vai para a última se estiver na primeira
+    const prevSong = songs[(currentIndex - 1 + songs.length) % songs.length];
     router.push(`/Song/${prevSong.id}`);
   };
 
