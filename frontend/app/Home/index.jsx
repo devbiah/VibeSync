@@ -5,13 +5,14 @@ import NavBar from "../../components/NavBar";
 import NavTop from "../../components/NavTop";
 import Albuns from "../../components/Albuns";
 import Songs from "../../components/Songs";
+import Artists from "../../components/Artists";
 
 
 const Home = () => {
   const router = useRouter();
   const [albuns, setAlbuns] = useState([]);
   const [songs, setSongs] = useState([]);
-
+  const [artists, setArtists] = useState([]);
 
   const fetchAlbuns = async () => {
     try {
@@ -19,7 +20,7 @@ const Home = () => {
       const data = await response.json();
       setAlbuns(data);
     } catch (error) {
-      console.error("Erro ao buscar álbuns:", error);
+      console.error("Error to found albums:", error);
     }
   };
 
@@ -30,13 +31,23 @@ const Home = () => {
       const data = await response.json();
       setSongs(data);
     } catch (error) {
-      console.error("Erro ao buscar músicas:", error);
+      console.error("Error to search musics:", error);
     }
   };
 
+  const fetchArtists = async () => {
+    try {
+      const response = await fetch("http://localhost:8000/artist/allArtists");
+      const data = await response.json();
+      setArtists(data);
+    } catch (error) {
+      console.error("Error to search artists:", error);
+    }
+  };
   useEffect(() => {
     fetchAlbuns();
     fetchSongs();
+    fetchArtists();
   }, []);
   const navigateToDetailsAlbum = (id) => {
     router.push(`/Album/${id}`);
@@ -54,7 +65,8 @@ const Home = () => {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Albuns albuns={albuns} onNavigateToDetails={navigateToDetailsAlbum} />
         <Songs songs={songs} onNavigateToDetails={navigateToDetailsSong} />
-      </ScrollView>
+        <Artists artists={artists}/>
+        </ScrollView>
       <NavBar style={styles.navBar} />
     </View>
   );
