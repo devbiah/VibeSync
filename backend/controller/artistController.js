@@ -8,7 +8,23 @@ const allArtists = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
-
+const getArtistById = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const artist = await Artist.findByPk(id, {
+        attributes: ['name', 'bio', 'imageUrl'] 
+      });
+      if (!artist) {
+        return res.status(404).json({ message: 'Artist not found' });
+      }
+  
+      res.status(200).json(artist);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+    
+  };
+  
 const allAlbums = async (req, res) => {
     try {
         const allAlbums = await Album.findAll({
@@ -49,6 +65,31 @@ const getAlbumById = async (req, res) => {
         res.status(500).json({ message: error.message });
     }
 };
+
+const getTheAlbum = async (req, res) => {
+    const { id } = req.params;
+    try {
+      const albums = await Album.findAll({
+        where: { artistId: id },
+        include: [
+          {
+            model: Artist,
+            as: 'Artist',
+            attributes: ['name', 'bio']
+          }
+        ]
+      });
+  
+      if (!albums || albums.length === 0) {
+        return res.status(404).json({ message: 'No albums found for this artist' });
+      }
+  
+      res.status(200).json(albums);
+    } catch (error) {
+      res.status(500).json({ message: error.message });
+    }
+  };
+  
 
 const getMusicsByAlbumId = async (req, res) => {
     const { id } = req.params;
@@ -124,4 +165,4 @@ const songsById = async (req, res) => {
     }
 };
 
-export { allAlbums, getAlbumById, getMusicsByAlbumId, allArtists, songs, songsById };
+export { allAlbums, getAlbumById, getMusicsByAlbumId, getArtistById,getTheAlbum, allArtists, songs, songsById };

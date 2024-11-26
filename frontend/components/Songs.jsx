@@ -3,7 +3,6 @@ import { FlatList, StyleSheet, Text, View, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const Songs = ({ songs, onNavigateToDetails }) => {
-  console.log(songs)
   return (
     <View style={styles.textFlat}>
       <Text style={styles.textSong}>Trending Songs</Text>

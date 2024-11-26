@@ -58,6 +58,10 @@ const Home = () => {
     router.push(`/Song/${id}`);
   };
 
+  const navigateToDetailsArtist = (id) => {
+    router.push(`/Artist/${id}`);
+  };
+
 
   return (
     <View style={styles.container}>
@@ -65,7 +69,7 @@ const Home = () => {
       <ScrollView contentContainerStyle={styles.scrollContent} showsVerticalScrollIndicator={false}>
         <Albuns albuns={albuns} onNavigateToDetails={navigateToDetailsAlbum} />
         <Songs songs={songs} onNavigateToDetails={navigateToDetailsSong} />
-        <Artists artists={artists}/>
+        <Artists artists={artists} onNavigateToDetails={navigateToDetailsArtist}/>
         </ScrollView>
       <NavBar style={styles.navBar} />
     </View>

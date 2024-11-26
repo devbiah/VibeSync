@@ -1,12 +1,5 @@
 import React from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  View,
-  Image,
-  Pressable,
-} from "react-native";
+import { FlatList, StyleSheet, Text, View, Image, Pressable } from "react-native";
 
 const Artists = ({ artists, onNavigateToDetails }) => {
   return (
@@ -15,7 +8,7 @@ const Artists = ({ artists, onNavigateToDetails }) => {
       <FlatList
         style={styles.flatfirst}
         data={artists}
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id.toString()} e
         horizontal
         renderItem={({ item, index }) => (
           <Pressable onPress={() => onNavigateToDetails(item.id)}>
@@ -46,24 +39,24 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 5,
     fontSize: 15,
-    justifyContent:"center",
+    justifyContent: "center",
   },
   imageContainer: {
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
-    padding:10
+    padding: 10,
   },
   artistImage: {
     width: 150,
     height: 150,
-    borderRadius:100
+    borderRadius: 100,
   },
   artistName: {
     fontSize: 16,
     color: "#242B33",
     fontWeight: "bold",
-    textAlign:"center"
+    textAlign: "center",
   },
 });
 
