@@ -76,6 +76,10 @@ const Music = sequelize.define('Music', {
         type: Sequelize.DataTypes.INTEGER,
         allowNull: false,
     },
+    songUrl: {
+        type: Sequelize.DataTypes.STRING,
+        allowNull: false,
+    },
     fileUrl: {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,

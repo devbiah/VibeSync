@@ -6,7 +6,9 @@ const styles = StyleSheet.create({
     width: 40,
     height: 30,
     resizeMode: "contain",
-    color: '#242B33'
+    color: '#242B33',
+    shadowRadius: 4,
+    shadowColor:'#B4C6D7'
   },
   container: {
     flexDirection: "row",
@@ -14,7 +16,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     height: 80,
     paddingHorizontal: 15,
-    margin: 10
+    margin: 10,
   },
   textLogoContainer: {
     flexDirection: "row",
@@ -25,7 +27,9 @@ const styles = StyleSheet.create({
   text: {
     fontWeight: 'bold',
     color: '#242B33',
-    fontSize:16
+    fontSize:16,
+    textShadowColor: '#B4C6D7', 
+    textShadowRadius: 4
   }
 });
 
