@@ -102,7 +102,7 @@ const songsById = async (req, res) => {
                 as: 'Artist',
                 attributes: ['name']
             },
-            attributes: ['title', 'id', 'gif', 'fileUrl']
+            attributes: ['title', 'id', 'gif', 'fileUrl', 'songUrl']
         });
 
         if (!song) {
@@ -114,7 +114,8 @@ const songsById = async (req, res) => {
             songTitle: song.title,
             id: song.id,
             fileUrl: song.fileUrl,
-            gif: song.gif
+            gif: song.gif,
+            songUrl: song.songUrl
         };
 
         res.status(200).json(formattedSong);

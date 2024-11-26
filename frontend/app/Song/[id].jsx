@@ -3,6 +3,7 @@ import { Image, Pressable, StyleSheet, Text, View } from "react-native";
 import MusicNav from "../../components/MusicNav";
 import NavBar from "../../components/NavBar";
 import React, { useState, useEffect } from 'react';
+import { Audio } from 'expo-av';
 
 export default function SongDetail() {
   const { id } = useLocalSearchParams();
@@ -12,6 +13,7 @@ export default function SongDetail() {
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [sound, setSound] = useState();
 
   useEffect(() => {
     const fetchSong = async () => {
@@ -32,8 +34,17 @@ export default function SongDetail() {
     fetchSong();
   }, [id]);
 
-  const togglePlayPause = () => {
-    setIsPlaying(!isPlaying);
+  const togglePlayPause = async () => {
+    if (isPlaying) {
+      await sound.stopAsync();
+    } else {
+      const { sound: playbackObject } = await Audio.Sound.createAsync(
+        { uri: song.songUrl }, 
+        { shouldPlay: true }
+      );
+      setSound(playbackObject);
+    }
+    setIsPlaying(!isPlaying); 
   };
 
   const goToNextSong = () => {
@@ -100,7 +111,7 @@ export default function SongDetail() {
             </Pressable>
             <Pressable onPress={togglePlayPause}>
               <Image
-                source={isPlaying ? require("../../assets/svg/pause.svg") : require("../../assets/svg/player.svg")}
+                source={isPlaying ? require("../../assets/svg/loading.svg") : require("../../assets/svg/player.svg")}
                 style={styles.iconP}
               />
             </Pressable>
