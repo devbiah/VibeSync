@@ -55,7 +55,12 @@ const getMusicsByAlbumId = async (req, res) => {
     try {
         const musics = await Music.findAll({
             where: { albumId: id },
-            attributes: ['id', 'title', 'duration', 'fileUrl']
+            attributes: ['id', 'title', 'gif', 'fileUrl'],
+            include: {
+                model: Artist,
+                as: 'Artist',
+                attributes: ['name']
+            }
         });
         if (!musics.length) {
             return res.status(404).json({ message: 'No songs found for this album' });
@@ -66,4 +71,56 @@ const getMusicsByAlbumId = async (req, res) => {
     }
 };
 
-export { allAlbums, getAlbumById, getMusicsByAlbumId, allArtists };
+const songs = async (req, res) => {
+    try {
+        const songs = await Music.findAll({
+            include: {
+                model: Artist,
+                as: 'Artist',
+                attributes: ['name']
+            },
+            attributes: ['title','id']
+        });
+
+        const formattedSongs = songs.map(song => ({
+            artist: song.Artist.name,
+            songTitle: song.title,
+            id: song.id
+        }));
+
+        res.status(200).json(formattedSongs);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+const songsById = async (req, res) => {
+    const { id } = req.params;
+    try {
+        const song = await Music.findByPk(id, {
+            include: {
+                model: Artist,
+                as: 'Artist',
+                attributes: ['name']
+            },
+            attributes: ['title', 'id', 'gif', 'fileUrl']
+        });
+
+        if (!song) {
+            return res.status(404).json({ message: 'Song not found' });
+        }
+
+        const formattedSong = {
+            artist: song.Artist.name,
+            songTitle: song.title,
+            id: song.id,
+            fileUrl: song.fileUrl,
+            gif: song.gif
+        };
+
+        res.status(200).json(formattedSong);
+    } catch (error) {
+        res.status(500).json({ message: error.message });
+    }
+};
+
+export { allAlbums, getAlbumById, getMusicsByAlbumId, allArtists, songs, songsById };

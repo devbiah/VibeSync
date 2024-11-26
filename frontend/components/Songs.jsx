@@ -3,13 +3,14 @@ import { FlatList, StyleSheet, Text, View, Pressable } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 
 const Songs = ({ songs, onNavigateToDetails }) => {
+  console.log(songs)
   return (
     <View style={styles.textFlat}>
       <Text style={styles.textSong}>Trending Songs</Text>
       <FlatList
         style={styles.flatfirst}
         data={songs} 
-        keyExtractor={(item) => item.id.toString()}
+        keyExtractor={(item) => item.id}
         vertical
         renderItem={({ item, index }) => (
           <Pressable 
@@ -22,14 +23,14 @@ const Songs = ({ songs, onNavigateToDetails }) => {
                 numberOfLines={1} 
                 ellipsizeMode="tail"
               >
-                {item.title.length > 25 ? item.title.substring(0, 25) + "..." : item.title}
+                {item.songTitle > 25 ? item.title.substring(0, 25) + "..." : item.songTitle}
               </Text>
               <Text 
                 style={[styles.artist, index % 2 === 0 ? styles.textDark : styles.textLight]}
                 numberOfLines={1} 
                 ellipsizeMode="tail"
               >
-                {item.artist.length > 25 ? item.artist.substring(0, 25) + "..." : item.artist}
+                {item.artist > 25 ? item.artist.substring(0, 25) + "..." : item.artist}
               </Text>
             </View>
             <Ionicons 

@@ -51,10 +51,6 @@ const Album = sequelize.define('Album', {
         type: Sequelize.DataTypes.STRING,
         allowNull: false,
     },
-    releaseYear: {
-        type: Sequelize.DataTypes.INTEGER,
-        allowNull: false,
-    },
     coverImageUrl: {
         type: Sequelize.DataTypes.STRING,
         allowNull: true,

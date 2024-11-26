@@ -57,6 +57,11 @@ const styles = StyleSheet.create({
     height: 60,
     backgroundColor: "#242B33",
     paddingVertical: 10,
+    position: "absolute",
+    left: 0,
+    right: 0,
+    bottom: 0,
+    zIndex: 1,
   },
   itemContainer: {
     alignItems: "center",
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
     color: "#B4C6D7",
     fontWeight: "bold",
     marginTop: 5,
-    fontSize:11
+    fontSize: 11,
   },
 });
 
