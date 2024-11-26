@@ -10,13 +10,32 @@ export default function SongDetail() {
   const router = useRouter();
 
   const [song, setSong] = useState(null);
+  const [songs, setSongs] = useState([]);  // Novo estado para armazenar todas as músicas
   const [isPlaying, setIsPlaying] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [sound, setSound] = useState();
 
   useEffect(() => {
+    const fetchSongs = async () => {
+      try {
+        const response = await fetch("http://localhost:8000/artist/songs");
+        if (!response.ok) {
+          throw new Error('Songs not found');
+        }
+        const songsData = await response.json();
+        setSongs(songsData);  // Armazenando todas as músicas
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    fetchSongs();
+  }, []);
+
+  useEffect(() => {
     const fetchSong = async () => {
+      if (!id) return;
       try {
         const response = await fetch(`http://localhost:8000/artist/songs/${id}`);
         if (!response.ok) {
@@ -48,14 +67,14 @@ export default function SongDetail() {
   };
 
   const goToNextSong = () => {
-    const currentIndex = songs.findIndex((song) => song.id === Number(id));
-    const nextSong = songs[(currentIndex + 1) % songs.length];
+    const currentIndex = songs.findIndex((songItem) => songItem.id === Number(id));
+    const nextSong = songs[(currentIndex + 1) % songs.length]; // Próxima música, vai para o início se estiver na última
     router.push(`/Song/${nextSong.id}`);
   };
 
   const goToPreviousSong = () => {
-    const currentIndex = songs.findIndex((song) => song.id === Number(id));
-    const prevSong = songs[(currentIndex - 1 + songs.length) % songs.length];
+    const currentIndex = songs.findIndex((songItem) => songItem.id === Number(id));
+    const prevSong = songs[(currentIndex - 1 + songs.length) % songs.length]; // Música anterior, vai para a última se estiver na primeira
     router.push(`/Song/${prevSong.id}`);
   };
 
