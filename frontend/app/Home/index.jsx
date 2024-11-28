@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
     backgroundColor: "#B4C6D7"
   },
   scrollContent: {
-    paddingBottom: 10
+    paddingBottom: 20
   },
   navBar: {
     position: "absolute",

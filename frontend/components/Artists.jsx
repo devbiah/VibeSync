@@ -30,9 +30,10 @@ const Artists = ({ artists, onNavigateToDetails }) => {
 const styles = StyleSheet.create({
   textFlat: {
     padding: 10,
+    marginBottom: 50,
   },
   flatfirst: {
-    paddingTop: 20,
+    paddingTop: 10,
   },
   textPlay: {
     color: "#242B33",
@@ -45,7 +46,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     marginBottom: 10,
-    padding: 10,
+    padding: 4,
   },
   artistImage: {
     width: 150,

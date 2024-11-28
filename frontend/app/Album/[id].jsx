@@ -139,7 +139,7 @@ import {
       borderRadius: 20,
       backgroundColor: "#6D8299",
       padding: 10,
-      height: 179,
+      height: 159,
       width: 332,
       alignSelf: "center",
     },
@@ -147,6 +147,7 @@ import {
       width: 130,
       height: 130,
       marginRight: 15,
+      borderRadius:10
     },
     textContainer: {
       flexDirection: "column",
